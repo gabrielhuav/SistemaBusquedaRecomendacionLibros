@@ -5,6 +5,4 @@ Sistema de recomendación de libros utilizando el conjunto de API REST que ofrec
 
 ## Diagrama de Entidad-Relación:
 
-
-![image](https://user-images.githubusercontent.com/71236850/150447638-04409eaa-3e65-429c-9cd6-c1f610020c67.png)
-
+![DER libros](https://user-images.githubusercontent.com/71237279/150449089-ff6d1e10-daf5-4624-83c5-a664a9edef13.png)
