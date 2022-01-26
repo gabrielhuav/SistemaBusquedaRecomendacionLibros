@@ -1,4 +1,4 @@
-package paq;
+package Modelo;
 
 /**
  * Atributos para los usuarios/
