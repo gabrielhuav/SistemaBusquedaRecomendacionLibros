@@ -1,12 +1,9 @@
-/* Giovanni Olmos Salmones - 2172002785
- * Gabriel Hurtado Aviles - 2172000781
- * Amaury Alexis tovar Basurto
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mx.uam.Pruebas;
+package clientes;
 
-import java.text.ParseException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
@@ -15,15 +12,33 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class ClienteLibros {
-    public static void main(String[] args) throws org.json.simple.parser.ParseException {
+    public static void main(String[] args) throws ParseException {
         
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target("https://openlibrary.org/");
+        //WebTarget target = client.target("https://openlibrary.org/");
+        //WebTarget target = client.target("https://openlibrary.org/");
         //WebTarget resourceWebTarget = target.path("/books/OL1M.json");
-        //WebTarget resourceWebTarget = target.path("/authors/OL23919A.json");
-        WebTarget resourceWebTarget = target.path("search/authors.json?q=j k rowling");
+        //WebTarget resourceWebTarget = target.path("authors/OL23919A.json");
+        //WebTarget resourceWebTarget = target.path("search/authors.json?q=Stephen King");
+        //WebTarget resourceWebTarget = client.target("https://openlibrary.org/search/authors.json?q=Sachi%20Routray");
+        //WebTarget resourceWebTarget = client.target("https://openlibrary.org/authors/OL23919A.json");
+        //WebTarget resourceWebTarget = target.path("OL2657433A.json");
+        
+        ///CON PATH
+        //WebTarget target = client.target("h
+        
+        //WebTarget resourceWebTarget = target.path("authors/OL1M.json");
+        //WebTarget resourceWebTarget = target.path("search/authors.json?q=Sachi%20Routray");
+        
+        ///SIN PATH
+        WebTarget resourceWebTarget = client.target("https://openlibrary.org/search/authors.json?q=Sachi%20Routray");
+        
+        
+        
+        
         
         Invocation.Builder invocationBuilder = resourceWebTarget.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.get();
@@ -34,24 +49,26 @@ public class ClienteLibros {
         
         System.out.println("Resultado " + responseJSON.toJSONString());
         
-        Object numFound = (Object) responseJSON.get("numFound");
-        System.out.println("numFound " + numFound.toString());
+        //Object numFound = (Object) responseJSON.get("numFound");
+        //System.out.println("numFound " + numFound.toString());
         
         
         /*Object nombre = (Object) responseJSON.get("name");
-        System.out.println("Nombre " + nombre.toString());
+        System.out.println("Nombre " + nombre.toString());*/
         
-        /*Object fechaFin = (Object) responseJSON.get("death_date");
-        System.out.println("Año muerte " + fechaFin.toString());
+        if (responseJSON.containsKey("death_date")){
+            Object fechaFin = (Object) responseJSON.get("death_date");
+            System.out.println("Año muerte " + fechaFin.toString());
+        }
         
-        JSONArray nombresAlt = (JSONArray) responseJSON.get("alternate_names");
+        /*JSONArray nombresAlt = (JSONArray) responseJSON.get("alternate_names");
         for (int i = 0; i < nombresAlt.size(); i++) {
             Object otrosNombre = (Object) nombresAlt.get(i);
             System.out.println("Nombre " + otrosNombre.toString());
         }
         
-        Object bio = (Object) responseJSON.get("bio");
-        System.out.println("Biografia " + bio.toString());
+        //Object bio = (Object) responseJSON.get("bio");
+        //System.out.println("Biografia " + bio.toString());
         
         /*JSONObject bio = (JSONObject) responseJSON.get("bio");
         System.out.println("Bio " + bio.toString());
