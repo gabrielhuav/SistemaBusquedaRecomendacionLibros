@@ -4,8 +4,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package clientes;
+package mx.uam.Pruebas;
 
+import java.text.ParseException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
@@ -14,10 +15,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class ClienteLibros {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) throws org.json.simple.parser.ParseException {
         
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("https://openlibrary.org/");
