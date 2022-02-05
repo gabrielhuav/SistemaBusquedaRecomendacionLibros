@@ -1,4 +1,4 @@
-package Modelo;
+package paq;
 
 /**
  * Atributos para los usuarios/
@@ -39,6 +39,12 @@ public class Usuario {
         this.correo = correo;
         this.userU = userU;
         this.passwordU = passwordU; 
+    }
+    
+    
+    
+    Usuario() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getId() {

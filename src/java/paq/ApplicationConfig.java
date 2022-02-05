@@ -1,15 +1,16 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package Modelo;
+package paq;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
  *
- * @author XStrike
+ * @author xido_
  */
 @javax.ws.rs.ApplicationPath("webresources")
 public class ApplicationConfig extends Application {
@@ -28,7 +29,11 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(Modelo.UsuarioResource.class);
+        resources.add(paq.AutorFavoritoResource.class);
+        resources.add(paq.BusquedaAutorResource.class);
+        resources.add(paq.LibroFavoritoResource.class);
+        resources.add(paq.TemasResource.class);
+        resources.add(paq.UsuarioResource.class);
     }
     
 }
