@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link type="text/css" href="2Columnas.css" rel="stylesheet">
+        <style>  
+        #MIO  {         
+            display: none;
+         }
+         
+        .buttonMIO{
+            background-color: #FF0000;
+            color:#fff;
+            border-radius: 15px;
+         
+         }
+         
+         .box{
+            width: 128px;
+            height: 193px;
+            overflow: hidden;
+          }
+          
+          .box img{
+            width: auto;
+            height: auto;
+          }
+          
+           @supports(object-fit: cover){
+            .box img{
+              height: 100%;
+              object-fit: cover;
+              object-position: center center;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="login-wrap">
+            <div class="login-html">
+                <div class="group">
+                <label  class="tab">Busqueda de libros</label>
+                </div>
+                <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Buscar</label>
+                <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Mis favoritos</label>
+         
+             
+                <div class="login-form">
+
+                    <div class="sign-in-htm">
+
+                        <div class="group">
+                            <label for="user" class="label" > Escribe titulo / autor :</label> 
+                            <input name="tituloAbuscar" id="tituloAbuscar" type="text" class="input" >            
+                        </div>
+
+                        <div class="group">
+                             <button class="button" onclick="BuscarPorTitulo()"> Buscar libro por titulo </button>
+                        </div>
+
+                        <div class="group">
+                             <button class="button" onclick="BuscarPorAutor()"> Buscar libro por autor </button>
+                        </div>
+
+                         <div class="group">
+                             <button class="button" onclick="BuscarPorPalabra()"> Buscar por palabra clave </button>
+                        </div>
+
+                        <form method="POST" action = "http://localhost:8080/Proyecto_Libros/webresources/LibroFavorito">
+                        <div id = "MIO"> 
+                            <input type="text" name="idUsuario1" id="idUsuario1" >  
+                            <input type="text" name="temaUsuario" id="temaUsuario" > 
+                            <input type="text" name="claveTema" id="claveTema" > 
+                            <img  id="img1" class="box" src="book.png">
+                        </div> 
+
+                        <div class="group" align="center">
+                            <table border="0" width="100%" id="tabla">
+
+                                <th align="center">
+                                    <div class="label">Titulo</div>
+                                </th>
+
+                                <th align="center">
+                                    <div class="label">Autor</div>
+                                </th>
+
+                                <th align="center">
+                                    <div class="label">Clave Libro</div>
+                                </th>
+
+                                <th align="center">
+                                    <div class="label">Clave Autor</div>
+                                </th>
+
+                                <th align="center">
+                                    <div class="label">Primera publicacion</div>
+                                </th>
+
+                            </table>
+                         </div>
+
+                        <br>
+
+                        <div id = "MIO"> 
+                            <input type="text" name="idUsuario" id="idUsuario" >  
+                            <input type="text" name="nombre" id="nombre" > 
+                            
+
+                            <input name="Titulo" id="Titulo" type="text" class="input" >
+                            <input name="Autor" id="Autor" type="text" class="input" > 
+                            <input name="ClaveLibro" id="ClaveLibro" type="text" class="input" > 
+                            <input name="ClaveAutor" id="ClaveAutor" type="text" class="input" >
+                            <input name="Primerapublicacion" id="Primerapublicacion" type="text" class="input" >
+                            <input name="imagen" id="imagen" type="text" class="input" >
+                            <img  id="img1" class="box" src="book.png">
+                        </div> 
+                        <div class="hr"></div>
+
+                        </form>
+                        <div class="group">       
+                            <button class="button" onclick="redireccionarMenu()">Menu</button>
+                        </div>
+                    </div> 
+                    
+                    <div class="sign-up-htm">
+                        <div class="group" align="center">
+                            <table border="0" width="100%" id="tablaH">
+                                
+                            <div id = "MIO"> 
+                                <img  id="img2" class="box" src="book.png">
+                            </div>
+
+                               <th align="center">
+                                    <div class="label">Titulo</div>
+                                </th>
+
+                                <th align="center">
+                                    <div class="label">Autor</div>
+                                </th>
+
+                                <th align="center">
+                                    <div class="label">Clave Libro</div>
+                                </th>
+
+                                <th align="center">
+                                    <div class="label">Clave Autor</div>
+                                </th>
+
+                                <th align="center">
+                                    <div class="label">Primera publicacion</div>
+                                </th>
+                            </table>
+                        </div>
+                        <div class="hr"></div>
+                        <div class="group">       
+                                <button class="button" onclick="redireccionarMenu()">Menu</button>
+                        </div>
+                    </div> 
+                    
+       
+                </div>
+            </div>           
+        </div>
+         <script src="busquedaLibros.js"></script>
+    </body>
+</html>
