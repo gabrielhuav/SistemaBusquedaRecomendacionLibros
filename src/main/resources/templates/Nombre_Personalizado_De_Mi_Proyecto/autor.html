@@ -26,6 +26,7 @@
         }
 
         </style>
+        <script src="autor.js"></script>
     </head>
     <body>
         <div class="login-wrap">
@@ -99,29 +100,27 @@
                             </div>
                         </div>
                         
-                     
-
-                    <div class="sign-up-htm">
-                      <form method="POST" action = "http://localhost:8080/Proyecto_Libros/webresources/AutorFavorito">                   
-                           
-                           <div class="group">
+                    <div class="sign-up-htm">              
+                      <form id="formularioGuardar" method="POST" action="/AutorFavorito">
+                            <!-- ... -->
+                            <div class="group">
                                 <label for="user" class="label"> AGREGAR AUTOR FAVORITO:</label>
                             </div>
-                          
+
                             <div class="group">
                                 <label for="Codigo" class="label" > Codigo del autor </label>
                                 <input type="text" id="Codigo" class="input" />
                             </div>
-                          
+
                             <div class="group">
                                 <button type="button" onclick="recoger()" class="button" > Buscar </button> <br>
                             </div>
-                          
-                            <div id = "MIO"> 
-                                <input type="text" name="idUsuario" id="idUsuario" > 
-                                <input type="text" name="nombre" id="nombre" >  
-                                <input type="text" name="idAutor" id="idAutor" > 
-                                <input type="text" name="nombreAutor" id="nombreAutor" > 
+
+                            <div id="MIO"> 
+                                <input type="hidden" name="idUsuario" id="idUsuario" value="${idUsuario}" > 
+                                <input type="hidden" name="nombre" id="nombre" value="${nombre}" >  
+                                <input type="hidden" name="idAutor" id="idAutor" value="${idAutor}" > 
+                                <input type="hidden" name="nombreAutor" id="nombreAutor" value="${nombreAutor}" > 
                             </div>
                             
                             <div class="group">
@@ -174,6 +173,5 @@
                 </div>
             </div>
         </div>
-        <script src="autor.js"></script>
     </body>
 </html>

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 import paq.Autor;
+import paq.GustoAutor;
 
 import paq.UtilDB;
 import paq.RecomiendaAutor;
@@ -51,15 +52,15 @@ public class BusquedaAutorController {
         return listaUsuarios.toString();
     }
 
-    @GetMapping("/{id}")
-    @ResponseBody
-    public Autor getAutor(@PathVariable("id") String id) {
-        final Autor elUsuario = listaUsuarios.get(id);
-        if (elUsuario == null) {
-            throw new RuntimeException("Autor no encontrado");
-        }
-        return elUsuario;
+@GetMapping("/{id}")
+@ResponseBody
+public Autor getAutor(@PathVariable("id") String id) {
+    final Autor elUsuario = listaUsuarios.get(id);
+    if (elUsuario == null) {
+        throw new RuntimeException("Autor no encontrado");
     }
+    return elUsuario;
+}
 
 @PostMapping("/buscar")
 public RedirectView postNuevoAutor(@RequestParam("autorabuscar") String autorabuscar, @RequestParam("idUsuarioBuscar") String idUsuario) throws ClassNotFoundException, URISyntaxException, ParseException, UnsupportedEncodingException {
@@ -87,7 +88,7 @@ private RedirectView handleAutor(Autor autorNuevo, String idUsuario, String nomb
 }
 
 private RedirectView processAutor(Autor autorNuevo, String idUsuario, String nombre) throws UnsupportedEncodingException, ClassNotFoundException {
-    util.registarAutor(autorNuevo);
+    util.registrarAutor(autorNuevo);
     List<Autor> listaRegistrada = util.cargaListaAutor();
     for (Autor cadaUsuario : listaRegistrada) {
         String idUsa = String.valueOf(cadaUsuario.getId());
@@ -123,4 +124,15 @@ private RedirectView processAutor(Autor autorNuevo, String idUsuario, String nom
     @PutMapping
     public void putHtml(@RequestBody String content) {
     }
+    
+@PostMapping("/registarGustoAutor")
+public ResponseEntity<String> registarGustoAutor(@RequestBody GustoAutor gusto) {
+    try {
+        util.registarGustoAutor(gusto);
+        return ResponseEntity.ok("Gusto autor registrado con éxito");
+    } catch (ClassNotFoundException e) {
+        return ResponseEntity.badRequest().body("Error registering gusto autor: " + e.getMessage());
+    }
+}
+
 }

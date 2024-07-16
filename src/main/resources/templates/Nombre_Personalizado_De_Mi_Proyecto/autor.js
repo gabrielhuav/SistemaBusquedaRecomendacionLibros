@@ -1,49 +1,38 @@
-let nombre ;
-let id ;
+let nombre;
+let id;
 let a;
+
+const contextPath = '/Nombre_Personalizado_De_Mi_Proyecto';
 
 function recoger() {
     let codigo = document.getElementById("Codigo").value;
-    //const url = 'https://openlibrary.org/authors/OL1A.json'
-    const url = 'http://localhost:8080/Nombre_Personalizado_De_Mi_Proyecto/webresources/busquedaAutor/' + codigo ;
+    const url = 'http://localhost:8080/busquedaAutor/' + codigo;
 
     fetch(url)
     .then(response => response.json() )
     .then(data => {
+        console.log(data);
 
-        console.log(data)
-        
-        
-        let id = data.id ;
-        let nombre = data.nombre ;
-        let mejorlibro = data.mejorlibro ;
-        let fechaNacimiento = data.fechaNacimiento ;
-        let fechaFallecimiento = data.fechaFallecimiento ;
-        let biografia = data.biografia ;
+        document.getElementById('idAutor').value = data.id;
+        document.getElementById('nombreAutor').value = data.nombre;
+        document.getElementById('idAutorL').innerHTML = data.id;
+        document.getElementById("nombreL").innerHTML = data.nombre;
+        document.getElementById("mejorlibroL").innerHTML = data.mejorlibro;
+        document.getElementById("fechaNacimientoL").innerHTML = data.fechaNacimiento;
+        document.getElementById("fechaFallecimientoL").innerHTML = data.fechaFallecimiento;
+        document.getElementById("biografiaL").innerHTML = data.biografia;
 
-        document.getElementById('idAutorL').innerHTML = id;
-        document.getElementById("nombreL").innerHTML = nombre;   
-        document.getElementById("mejorlibroL").innerHTML= mejorlibro;
-        document.getElementById("fechaNacimientoL").innerHTML = fechaNacimiento;
-        document.getElementById("fechaFallecimientoL").innerHTML = fechaFallecimiento;
-        document.getElementById("biografiaL").innerHTML = biografia;
-        
-        document.getElementById('idAutor').value = id;
-        document.getElementById('nombreAutor').value = nombre;
-        recuperarImagenURLJSON(id);
-        
+        recuperarImagenURLJSON(data.id);
     })
-    .catch(err=>console.log(err))
+    .catch(err => console.log(err));
 }
 
 function recuperarImagen() {
-  
     const url = 'https://openlibrary.org/authors/' + a + '.json' ;
 
     fetch(url)
     .then(response => response.json() )
     .then(data => {
-
         let idIMG = data.photos[0] ;
         console.log(idIMG); //7127409
         const img = 'https://covers.openlibrary.org/a/id/' + idIMG + '-M.jpg' ;
@@ -53,13 +42,11 @@ function recuperarImagen() {
 }
 
 function recuperarImagenURLJSON(idImagenBase) {
-  
     const url = 'https://openlibrary.org/authors/' + idImagenBase + '.json' ;
 
     fetch(url)
     .then(response => response.json() )
     .then(data => {
-
         let idIMG = data.photos[0] ;
         console.log(idIMG); //7127409
         const img = 'https://covers.openlibrary.org/a/id/' + idIMG + '-M.jpg' ;
@@ -104,6 +91,3 @@ function redireccionarMenu(){
     let URL = 'http://localhost:8080/Nombre_Personalizado_De_Mi_Proyecto/menu.html?q=' + id + '&n=' + nombre ;
     location.href= URL;
 }
-
-
-

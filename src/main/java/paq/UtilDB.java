@@ -336,7 +336,7 @@ public class UtilDB{
         }
     }
     
-    public void registarAutor(Autor autor) throws ClassNotFoundException {
+    public void registrarAutor(Autor autor) throws ClassNotFoundException {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/libros", "admin", "admin");
@@ -702,19 +702,19 @@ public Object buscarAutor(String id) throws ClassNotFoundException, ParseExcepti
             Class.forName("org.mariadb.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/libros", "admin", "admin");
             if (conn != null) {
-                
-                Statement st = conn.createStatement();
-
-                String query =  "insert into gustoautor (idUsuario, idAutor , nombreAutor ) values('" + gusto.getIdUsuario() + "', '" + gusto.getIdAutor() + "', '"+ gusto.getNombreAutor() +"')";
-                System.out.println(query);
-                st.executeUpdate(query);
+                String query = "insert into gustoautor (idUsuario, idAutor, nombreAutor) values(?, ?, ?)";
+                PreparedStatement st = conn.prepareStatement(query);
+                st.setString(1, gusto.getIdUsuario());
+                st.setString(2, gusto.getIdAutor());
+                st.setString(3, gusto.getNombreAutor());
+                st.executeUpdate();
             }
-        }
-        catch(SQLException ex){
+        } catch(SQLException ex) {
             System.err.println(ex.getMessage());
             Logger.getLogger(UtilDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
      
     public String autoresFavoritos() throws ClassNotFoundException{
         Autor autor = new Autor();

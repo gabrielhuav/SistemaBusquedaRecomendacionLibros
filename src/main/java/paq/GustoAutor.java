@@ -24,11 +24,11 @@ public class GustoAutor {
     }
     
     GustoAutor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
     GustoAutor(List<GustoAutor> lista) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
 
