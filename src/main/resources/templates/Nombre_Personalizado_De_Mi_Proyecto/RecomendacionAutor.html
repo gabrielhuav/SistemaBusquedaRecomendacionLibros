@@ -5,6 +5,7 @@
         <! -- IMPORTANTE: PONER EL ARCHIVO DEl ZIP ... --> 
         <style>
         </style>
+        <script src="RecomendacionAutor.js"></script>
     </head>
     <body>
         <div class="login-wrap">
@@ -18,7 +19,7 @@
                   
                     
                         <div class="sign-in-htm">
-                            <form method="POST" action = "http://localhost:8080/Nombre_Personalizado_De_Mi_Proyecto/webresources/busquedaAutor/Recomienda" > 
+                            <form method="POST" action = "/busquedaAutor/Recomienda" > 
                             <div class="group">
                                 <label for="user" class="label" > Selecciona un autor :</label> 
                                 <select name="cliente" id="cliente" onchange="cambioSelect()" class="input">
@@ -71,7 +72,7 @@
                         </div>
                      
                     <div class="sign-up-htm">
-                      <form method="POST" action = "http://localhost:8080/Nombre_Personalizado_De_Mi_Proyecto/webresources/AutorFavorito">                        
+                      <form method="POST" action = "/AutorFavorito">                        
                            
                            <div class="group">
                                 <label for="user" class="label"> Historal de recomendaciones </label>
@@ -113,6 +114,5 @@
                 </div>
             </div>
         </div>
-        <script src="RecomendacionAutor.js"></script>
     </body>
 </html>

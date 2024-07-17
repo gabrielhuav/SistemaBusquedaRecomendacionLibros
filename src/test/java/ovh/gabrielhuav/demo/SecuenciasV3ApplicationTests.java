@@ -10,9 +10,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import ovh.gabrielhuav.controlador.SecuenciasV3Application;
+import ovh.gabrielhuav.LibrosApplication;
 
-@SpringBootTest(classes = SecuenciasV3Application.class)
+@SpringBootTest(classes = LibrosApplication.class)
 @AutoConfigureMockMvc
 class SecuenciasV3ApplicationTests {
 

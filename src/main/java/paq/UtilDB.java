@@ -478,20 +478,29 @@ public Object buscarAutor(String id) throws ClassNotFoundException, ParseExcepti
 
             String keyS = responseJSON.containsKey("key") ? responseJSON.get("key").toString() : "null";
             String nombreS = responseJSON.containsKey("name") ? responseJSON.get("name").toString() : "null";
-            String topWorkS = responseJSON.containsKey("bestseller") ? responseJSON.get("bestseller").toString() : "null";
+            String topWorkS = responseJSON.containsKey("top_work") ? responseJSON.get("top_work").toString() : "null";
             String fechaNacS = responseJSON.containsKey("birth_date") ? responseJSON.get("birth_date").toString() : "null";
             String fechaFinS = responseJSON.containsKey("death_date") ? responseJSON.get("death_date").toString() : "null";
-            String bioS = responseJSON.containsKey("bio") ? responseJSON.get("bio").toString() : "null";
+            //String bioS = responseJSON.containsKey("bio") ? responseJSON.get("bio").toString() : "null";
+            String bioV = "";
             
+            if (responseJSON.containsKey("bio")) {
+                JSONObject bioObject = (JSONObject) responseJSON.get("bio");
+                String bioS = (String) bioObject.get("value");
+                System.out.println("el valor filtrado del json es:" + bioS);
+                bioV = bioS;
+            } else {
+                // manejar el caso en que "bio" no existe
+            }
 
             System.out.println("ID: " + keyS);
             System.out.println("Nombre: " + nombreS);
             System.out.println("Su mejor trabajo: " + topWorkS);
             System.out.println("Año nacimiento: " + fechaNacS);
             System.out.println("Año muerte: " + fechaFinS);
-            System.out.println("Biografia: " + bioS);
+            System.out.println("Biografia: " + bioV);
 
-            return new Autor(keyS, nombreS, topWorkS, fechaNacS, fechaFinS, bioS);
+            return new Autor(keyS, nombreS, topWorkS, fechaNacS, fechaFinS, bioV);
         }
     } catch (HttpClientErrorException e) {
         if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
@@ -523,19 +532,19 @@ public Object buscarAutor(String id) throws ClassNotFoundException, ParseExcepti
                     JSONObject autorJSON = (JSONObject) obj;
                     String keyS = autorJSON.containsKey("key") ? autorJSON.get("key").toString() : "null";
                     String nombreS = autorJSON.containsKey("name") ? autorJSON.get("name").toString() : "null";
-                    String topWorkS = autorJSON.containsKey("bestseller") ? autorJSON.get("bestseller").toString() : "null";
+                    String topWorkS = autorJSON.containsKey("top_work") ? autorJSON.get("top_work").toString() : "null";
                     String fechaNacS = autorJSON.containsKey("birth_date") ? autorJSON.get("birth_date").toString() : "null";
                     String fechaFinS = autorJSON.containsKey("death_date") ? autorJSON.get("death_date").toString() : "null";
-                    String bioS = autorJSON.containsKey("bio") ? autorJSON.get("bio").toString() : "null";
+                    String temasAutorS = autorJSON.containsKey("top_subjects") ? autorJSON.get("top_subjects").toString() : "null";
 
                     System.out.println("ID: " + keyS);
                     System.out.println("Nombre: " + nombreS);
                     System.out.println("Su mejor trabajo: " + topWorkS);
                     System.out.println("Año nacimiento: " + fechaNacS);
                     System.out.println("Año muerte: " + fechaFinS);
-                    System.out.println("Biografia: " + bioS);
+                    System.out.println("Biografiaa: " + temasAutorS);
 
-                    Autor autor = new Autor(keyS, nombreS, topWorkS, fechaNacS, fechaFinS, bioS);
+                    Autor autor = new Autor(keyS, nombreS, topWorkS, fechaNacS, fechaFinS, temasAutorS);
                     autores.add(autor);
                 }
 

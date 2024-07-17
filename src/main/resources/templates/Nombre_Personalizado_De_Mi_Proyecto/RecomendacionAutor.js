@@ -29,7 +29,7 @@ window.onload = async function( ) {
  
 function llenarSelect(){
     let idUsuario = document.getElementById("idUsuario").value;
-    const url = 'http://localhost:8080/Nombre_Personalizado_De_Mi_Proyecto/webresources/AutorFavorito/' + idUsuario ;
+    const url = 'http://localhost:8080/AutorFavorito/' + idUsuario ;
     
     fetch(url).then(function(response){
         response.json().then(function(data) {
@@ -53,7 +53,7 @@ function llenarSelect(){
 
 function llenarListaRecomendacion(){
     let idUsuario = document.getElementById("idUsuario").value;
-    const url = 'http://localhost:8080/Nombre_Personalizado_De_Mi_Proyecto/webresources/AutorFavorito/lista/' + idUsuario ;
+    const url = 'http://localhost:8080/AutorFavorito/lista/' + idUsuario ;
     
     fetch(url).then(function(response){
         response.json().then(function(data) {
@@ -164,11 +164,3 @@ function redireccionarMenu(){
     let URL = 'http://localhost:8080/Nombre_Personalizado_De_Mi_Proyecto/menu.html?q=' + id + '&n=' + nombre ;
     location.href= URL;
 }
-
-
-
-
-
-
-
-        
