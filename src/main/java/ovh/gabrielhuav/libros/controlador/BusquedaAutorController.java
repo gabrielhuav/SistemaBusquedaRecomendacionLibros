@@ -1,5 +1,6 @@
 package ovh.gabrielhuav.libros.controlador;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -8,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.json.simple.parser.ParseException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -117,5 +122,19 @@ public class BusquedaAutorController {
 
         // Return a custom HTTP response with a status code and a response body
         return ResponseEntity.ok().body(uri);
+    }
+    
+    @GetMapping("/obtenerPortadaLibro")
+    @ResponseBody
+    public String obtenerPortadaLibro(@RequestParam("libroUrl") String libroUrl) throws IOException {
+        Document doc = Jsoup.connect(libroUrl).get();
+        Elements imgs = doc.select("img[src]");
+        for (Element img : imgs) {
+            String src = img.attr("src");
+            if (src.contains("cover")) {
+                return src;
+            }
+        }
+        return null;
     }
 }
