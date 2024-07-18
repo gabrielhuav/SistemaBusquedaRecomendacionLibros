@@ -36,7 +36,7 @@ CREATE TABLE recomendacionautor (
   id INT(11) PRIMARY KEY AUTO_INCREMENT,
   idUsuario INT(11) NOT NULL,
   idLibro VARCHAR(120) NOT NULL,
-  titulo VARCHAR(120) NOT NULL,
+  titulo VARCHAR(4094) NOT NULL,
   idAutor VARCHAR(64) NOT NULL,
   nombreAutor VARCHAR(120) NOT NULL,
   imagen VARCHAR(120) NOT NULL,

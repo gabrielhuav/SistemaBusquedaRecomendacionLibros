@@ -4,14 +4,15 @@ package paq;
  * Atributos para los usuarios/
  * @author xido_
  */
+
 public class Autor {
     
-    private String id  ;
-    private String nombre ;
-    private String mejorlibro ;
-    private String fechaNacimiento ;
-    private String fechaFallecimiento ;
-    private String biografia ;
+    private String id;
+    private String nombre;
+    private String mejorlibro;
+    private String fechaNacimiento;
+    private String fechaFallecimiento;
+    private String biografia;
 
     public Autor(String id, String nombre, String mejorlibro, String fechaNacimiento, String fechaFallecimiento, String biografia) {
         this.id = id;
@@ -82,7 +83,4 @@ public class Autor {
     public String toString() {
         return "Autor{" + "id=" + id + ", nombre=" + nombre + ", mejorlibro=" + mejorlibro + ", fechaNacimiento=" + fechaNacimiento + ", fechaFallecimiento=" + fechaFallecimiento + ", biografia=" + biografia + '}';
     }
-    
-    
-   
 }

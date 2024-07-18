@@ -2,13 +2,12 @@ package paq;
 
 import java.util.List;
 
-
 public class GustoAutor {
     
-    private String id  ;
-    private String idUsuario ;
-    private String idAutor ;
-    private String nombreAutor ;
+    private String id;
+    private String idUsuario;
+    private String idAutor;
+    private String nombreAutor;
 
     public GustoAutor(String id, String idUsuario, String idAutor, String nombreAutor) {
         this.id = id;
@@ -24,11 +23,9 @@ public class GustoAutor {
     }
     
     GustoAutor() {
-        
     }
     
     GustoAutor(List<GustoAutor> lista) {
-        
     }
     
 
@@ -68,6 +65,4 @@ public class GustoAutor {
     public String toString() {
         return "GustoAutor{" + "id=" + id + ", idUsuario=" + idUsuario + ", idAutor=" + idAutor + ", nombreAutor=" + nombreAutor + '}';
     }
-    
-  
 }

@@ -4,16 +4,17 @@ package paq;
  * Atributos para los usuarios/
  * @author xido_
  */
+
 public class RecomiendaAutor {
     
-    private String id  ;
-    private String idUsuario ;
-    private String idLibro ;
-    private String titulo ;
+    private String id;
+    private String idUsuario;
+    private String idLibro;
+    private String titulo;
     private String idAutor;
     private String nombreAutor;
     private String imagen;
-    private String FechaRecomendacion ;
+    private String FechaRecomendacion;
 
     public RecomiendaAutor(String id, String idUsuario, String idLibro, String titulo, String idAutor,String nombreAutor,String imagen) {
         this.id = id;
@@ -44,7 +45,6 @@ public class RecomiendaAutor {
         this.nombreAutor = nombreAutor;
         this.imagen = imagen;
     }
-
 
     RecomiendaAutor(RecomiendaAutor buscarAutor) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -118,12 +118,8 @@ public class RecomiendaAutor {
         this.imagen = imagen;
     }
     
-    
-    
     @Override
     public String toString() {
         return "RecomiendaAutor{" + "id=" + id + ", idUsuario=" + idUsuario + ", idLibro=" + idLibro + ", titulo=" + titulo + ", idAutor=" + idAutor + ", nombreAutor=" + nombreAutor + ", FechaRecomendacion=" + FechaRecomendacion + '}';
     }
-
-      
 }

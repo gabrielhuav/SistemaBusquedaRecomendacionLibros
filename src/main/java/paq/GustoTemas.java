@@ -5,10 +5,10 @@ import java.util.List;
 
 public class GustoTemas {
     
-    private String id  ;
-    private String idUsuario ;
-    private String idtema ;
-    private String tema ;
+    private String id;
+    private String idUsuario;
+    private String idtema;
+    private String tema;
 
     public GustoTemas(String id, String idUsuario, String idtema, String tema) {
         this.id = id;
@@ -22,8 +22,6 @@ public class GustoTemas {
         this.idtema = idtema;
         this.tema = tema;
     }
-    
-    
     
     GustoTemas() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -69,5 +67,4 @@ public class GustoTemas {
     public String toString() {
         return "Gustotemas{" + "id=" + id + ", idUsuario=" + idUsuario + ", idtema=" + idtema + ", tema=" + tema + '}';
     }
-
 }

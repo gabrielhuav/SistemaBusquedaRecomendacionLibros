@@ -185,8 +185,35 @@ function cambioSelect() {
     let idAutor = document.getElementById('cliente').value;
     document.getElementById('idAutor').value = idAutor;  
 
+    document.getElementById("nombre").value = nombre;
     // Llamar a la función para recuperar la información del autor
     recuperarImagen(idAutor);
+    
+    // Pasar el parámetro nombre a la función buscarLibro
+    buscarLibro(idAutor, nombre);
+}
+
+function mostrarHistorial() {
+    let idUsuario = document.getElementById("idUsuario").value;
+    const url = 'http://localhost:8080/AutorFavorito/historial/' + idUsuario;
+    
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            let tabla = document.getElementById("tabla-historial");
+            tabla.innerHTML = '';
+            data.forEach(function(dato) {
+                let fila = tabla.insertRow();
+                fila.innerHTML = `
+                    <td>${dato.titulo}</td>
+                    <td>${dato.nombreAutor}</td>
+                    <td>${dato.idLibro}</td>
+                    <td>${dato.idAutor}</td>
+                    <td>${dato.fechaRecomendacion}</td>
+                `;
+            });
+        })
+        .catch(error => console.log('Fetch Error:', error));
 }
 
 function redireccionarMenu() {

@@ -1,16 +1,15 @@
 package paq;
 
-
 public class Libro {
     
-    private String id  ;
-    private String idUsuario  ;
-    private String idLibro ;
-    private String titulo  ;
-    private String idAutor ;
-    private String nombreAutor ;
-    private String yearP ;
-    private String imagen ;
+    private String id;
+    private String idUsuario;
+    private String idLibro;
+    private String titulo;
+    private String idAutor;
+    private String nombreAutor;
+    private String yearP;
+    private String imagen;
 
     public Libro(String id, String idUsuario, String idLibro, String titulo, String idAutor, String nombreAutor, String yearP,String imagen) {
         this.id = id;
@@ -105,14 +104,8 @@ public class Libro {
         this.imagen = imagen;
     }
     
-    
-
     @Override
     public String toString() {
         return "Libro{" + "id=" + id + ", idUsuario=" + idUsuario + ", idLibro=" + idLibro + ", titulo=" + titulo + ", idAutor=" + idAutor + ", nombreAutor=" + nombreAutor + ", yearP=" + yearP + '}';
     }
-
-   
-
-    
 }

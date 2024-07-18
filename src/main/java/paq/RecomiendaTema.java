@@ -4,17 +4,18 @@ package paq;
  * Atributos para los usuarios/
  * @author xido_
  */
+
 public class RecomiendaTema {
     
-    private String id  ;
-    private String idUsuario ;
-    private String idLibro ;
-    private String titulo ;
-    private String idAutor ;
-    private String nombreAutor ;
-    private String tema ;
-    private String imagen ;
-    private String FechaRecomendacion ;
+    private String id;
+    private String idUsuario;
+    private String idLibro;
+    private String titulo;
+    private String idAutor;
+    private String nombreAutor;
+    private String tema;
+    private String imagen;
+    private String FechaRecomendacion;
 
     public RecomiendaTema(String id, String idUsuario, String idLibro, String titulo, String idAutor, String nombreAutor, String tema, String imagen ,String FechaRecomendacion) {
         this.id = id;
@@ -129,14 +130,8 @@ public class RecomiendaTema {
         this.imagen = imagen;
     }
     
-    
-
     @Override
     public String toString() {
         return "RecomiendaTema{" + "id=" + id + ", idUsuario=" + idUsuario + ", idLibro=" + idLibro + ", titulo=" + titulo + ", idAutor=" + idAutor + ", nombreAutor=" + nombreAutor + ", tema=" + tema + ", FechaRecomendacion=" + FechaRecomendacion + '}';
     }
-
-    
-    
-      
 }

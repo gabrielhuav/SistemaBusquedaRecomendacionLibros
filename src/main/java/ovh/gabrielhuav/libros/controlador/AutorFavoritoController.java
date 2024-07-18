@@ -46,6 +46,12 @@ public class AutorFavoritoController {
         util.registarGustoAutor(gusto);
         return ResponseEntity.ok("Autor favorito registrado con éxito mediante el AutorFavoritoController.java");
     }
+    
+    @GetMapping("/historial/{idUsuario}")
+    public ResponseEntity<List<RecomiendaAutor>> getHistorial(@PathVariable int idUsuario) throws ClassNotFoundException {
+        List<RecomiendaAutor> lista = util.cargaListaRecomendacionAutor(idUsuario);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
+    }
 
     @PutMapping
     public ResponseEntity<String> putHtml(@RequestBody String content) {

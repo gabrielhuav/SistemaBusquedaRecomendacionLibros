@@ -4,18 +4,18 @@ package paq;
  * Atributos para los usuarios/
  * @author xido_
  */
+
 public class Usuario {
     
-    private int id ;
-    private String nombre ;
-    private String apellidoP ;
-    private String apellidoM ;
-    private int edad ;
-    private String genero ;
-    private String correo ;
-    private String userU ;
-    private String passwordU ;
-    
+    private int id;
+    private String nombre;
+    private String apellidoP;
+    private String apellidoM;
+    private int edad;
+    private String genero;
+    private String correo;
+    private String userU;
+    private String passwordU;
     
     public Usuario(int id, String nombre, String apellidoP, String apellidoM, int edad, String genero, String correo, String userU, String passwordU) {
         this.id = id;
@@ -40,8 +40,6 @@ public class Usuario {
         this.userU = userU;
         this.passwordU = passwordU; 
     }
-    
-    
     
     Usuario() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -123,7 +121,4 @@ public class Usuario {
     public String toString() {
         return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", apellidoP=" + apellidoP + ", apellidoM=" + apellidoM + ", edad=" + edad + ", genero=" + genero + ", correo=" + correo + ", userU=" + userU + ", paswordU=" + passwordU + '}';
     }
-
-   
-      
 }

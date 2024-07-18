@@ -385,7 +385,7 @@ public class UtilDB{
                 
                 Statement st = conn.createStatement();
 
-                String query =  "insert into recomendacionAutor ( idUsuario, idLibro, titulo, idAutor, nombreAutor, imagen) values('" + recomendacion.getIdUsuario() + "', '" + recomendacion.getIdLibro() + "', '" + recomendacion.getTitulo() +  "', '" + recomendacion.getIdAutor() + "', '" + recomendacion.getNombreAutor() +  "', '" + recomendacion.getImagen() + "')";
+                String query =  "insert into recomendacionautor ( idUsuario, idLibro, titulo, idAutor, nombreAutor, imagen) values('" + recomendacion.getIdUsuario() + "', '" + recomendacion.getIdLibro() + "', '" + recomendacion.getTitulo() +  "', '" + recomendacion.getIdAutor() + "', '" + recomendacion.getNombreAutor() +  "', '" + recomendacion.getImagen() + "')";
                 System.out.println(query);
                 st.executeUpdate(query);
             }
@@ -560,7 +560,7 @@ public Object buscarAutor(String id) throws ClassNotFoundException, ParseExcepti
         
     public RecomiendaAutor RecomiendaPorAutor(String idAutor, String idUsuario, String nombreAutor) throws ParseException {
         RestTemplate restTemplate = new RestTemplate();
-        String bautor = "https://openlibrary.org/authors/" + idAutor + "/works.json?limit=100";
+        String bautor = "https://openlibrary.org/" + idAutor + "/works.json?limit=100";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

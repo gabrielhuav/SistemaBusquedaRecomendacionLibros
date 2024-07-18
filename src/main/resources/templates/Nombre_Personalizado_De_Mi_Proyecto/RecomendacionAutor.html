@@ -14,7 +14,7 @@
                 <label  class="tab">Recomendacion por autor</label>
                 </div>
                 <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Recomiendame</label>
-                <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Historial</label>
+                <input id="tab-2" type="radio" name="tab" class="sign-up" onclick="mostrarHistorial()"><label for="tab-2" class="tab">Historial</label>
                 <div class="login-form">
                   
                     
@@ -31,6 +31,7 @@
                                 <input type="text" name="idUsuario" id="idUsuario">
                                 <input type="text" name="idAutor" id="idAutor" > 
                                 <input type="text" name="nombreAutor" id="nombreAutor" > 
+                                <input type="hidden" name="nombre" id="nombre" value="${nombre}">
                             </div> 
                             
                             <div class="group">

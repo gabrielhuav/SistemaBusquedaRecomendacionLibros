@@ -2,12 +2,11 @@ package paq;
 
 import java.util.List;
 
-
 public class Temas {
     
-    private String id  ;
-    private String clave ;
-    private String traduccion ;
+    private String id;
+    private String clave;
+    private String traduccion;
 
     public Temas(String id, String clave, String traduccion) {
         this.id = id;
@@ -56,5 +55,4 @@ public class Temas {
     public String toString() {
         return "temas{" + "id=" + id + ", clave=" + clave + ", traduccion=" + traduccion + '}';
     }
-
 }
