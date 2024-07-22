@@ -11,7 +11,7 @@ public class Libro {
     private String yearP;
     private String imagen;
 
-    public Libro(String id, String idUsuario, String idLibro, String titulo, String idAutor, String nombreAutor, String yearP,String imagen) {
+    public Libro(int idUsuario1, String id, String idUsuario, String idLibro, String titulo, String idAutor, String nombreAutor) {
         this.id = id;
         this.idUsuario = idUsuario;
         this.idLibro = idLibro;
@@ -22,7 +22,7 @@ public class Libro {
         this.imagen = imagen;
     }
     
-    public Libro( String idUsuario, String idLibro, String titulo, String idAutor, String nombreAutor, String yearP,String imagen) {
+    public Libro( String idUsuario, String idLibro, String titulo, String idAutor, String nombreAutor, String yearP, String imagen) {
         this.idUsuario = idUsuario;
         this.idLibro = idLibro;
         this.titulo = titulo;
@@ -32,14 +32,11 @@ public class Libro {
         this.imagen = imagen;
     }
 
-
     Libro(Libro buscarAutor) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    Libro() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public Libro() {}
 
     public String getId() {
         return id;
@@ -106,6 +103,6 @@ public class Libro {
     
     @Override
     public String toString() {
-        return "Libro{" + "id=" + id + ", idUsuario=" + idUsuario + ", idLibro=" + idLibro + ", titulo=" + titulo + ", idAutor=" + idAutor + ", nombreAutor=" + nombreAutor + ", yearP=" + yearP + '}';
+        return "Libro{" + "id=" + id + ", idUsuario=" + idUsuario + ", idLibro=" + idLibro + ", titulo=" + titulo + ", idAutor=" + idAutor + ", nombreAutor=" + nombreAutor + ", yearP=" + yearP + ", imagen=" + imagen + '}';
     }
 }

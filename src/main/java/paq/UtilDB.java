@@ -266,7 +266,7 @@ public class UtilDB{
                     String imagen = rs.getString("imagen");
                              
                     
-                    Libro recomendacion = new Libro (id, idUsuario, idLibro, titulo, idAutor, nombreAutor, FechaRecomendacion,imagen);
+                    Libro recomendacion = new Libro (idUsuario, id, idUsuario, idLibro, titulo, idAutor, nombreAutor);
                     
                     lista.add(recomendacion);
                 }
@@ -401,16 +401,18 @@ public class UtilDB{
             Class.forName("org.mariadb.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/libros", "admin", "admin");
             if (conn != null) {
-                
-                Statement st = conn.createStatement();
-
-                String query =  "insert into librosfavoritos ( idUsuario, idLibro, titulo, idAutor, nombreAutor, yearP, imagen) values('" + libro.getIdUsuario() + "', '" + libro.getIdLibro() + "', '" + libro.getTitulo() +  "', '" + libro.getIdAutor() + "', '" + libro.getNombreAutor() + "', '" + libro.getYearP() +  "', '" + libro.getImagen() + "')";
-                System.out.println(query);
-                System.out.println(query);
-                st.executeUpdate(query);
+                String query = "insert into librosfavoritos (idUsuario, idLibro, titulo, idAutor, nombreAutor, yearP, imagen) values (?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement st = conn.prepareStatement(query);
+                st.setString(1, libro.getIdUsuario());
+                st.setString(2, libro.getIdLibro());
+                st.setString(3, libro.getTitulo());
+                st.setString(4, libro.getIdAutor());
+                st.setString(5, libro.getNombreAutor());
+                st.setString(6, libro.getYearP());
+                st.setString(7, libro.getImagen());
+                st.executeUpdate();
             }
-        }
-        catch(SQLException ex){
+        } catch(SQLException ex){
             System.err.println(ex.getMessage());
             Logger.getLogger(UtilDB.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -211,8 +211,6 @@ function cambioSelectGusto() {
 }
 
 function redireccionarMenu(){
-    let URL = 'http://localhost:8080/Nombre_Personalizado_De_Mi_Proyecto/menu.html?q=' + id + '&n=' + nombre ;
+    let URL = 'http://localhost:8080/Nombre_Personalizado_De_Mi_Proyecto/menu.html?q=' + id + '&n=' + nombre;
     location.href= URL;
 }
-
-
