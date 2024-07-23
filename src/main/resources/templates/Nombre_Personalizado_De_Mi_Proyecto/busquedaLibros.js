@@ -77,43 +77,13 @@ function BuscarPorTitulo() {
     .catch(error => console.error("Error en la petición:", error));
 }
 
-function agregarFavorito(index) {
-    const tabla = document.getElementById("tabla");
-    const fila = tabla.rows[index + 1]; // +1 porque la primera fila es el encabezado
-
-    const idUsuario = document.getElementById("idUsuario").value;
-    const idLibro = fila.cells[3].textContent;
-    const titulo = fila.cells[1].textContent;
-    const idAutor = fila.cells[4].textContent;
-    const nombreAutor = fila.cells[2].textContent;
-    const yearP = fila.cells[5].textContent;
-    const imagen = fila.cells[0].querySelector("img").src.split('/').pop().split('-')[0];
-
-    fetch("/LibroFavorito", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: new URLSearchParams({
-            idUsuario: idUsuario,
-            idLibro: idLibro,
-            titulo: titulo,
-            idAutor: idAutor,
-            nombreAutor: nombreAutor,
-            yearP: yearP,
-            imagen: imagen
-        })
-    })
-    .then(response => response.text())
-    .then(data => {
-        alert(data);
-    })
-    .catch(error => console.error("Error en la petición:", error));
-}
-
-
 function BuscarPorAutor() {
     const autor = document.getElementById("tituloAbuscar").value;
+
+    if (!autor.trim()) {
+        alert("Por favor, ingresa un autor para buscar.");
+        return;
+    }
 
     fetch("/api/libros/buscarPorAutor", {
         method: "POST",
@@ -165,7 +135,7 @@ function BuscarPorAutor() {
                 const celdaBoton = fila.insertCell();
                 const boton = document.createElement("button");
                 boton.setAttribute("align", "justify");
-                boton.setAttribute("onclick", `prueba(${i})`);
+                boton.setAttribute("onclick", `agregarFavorito(${i})`);
                 boton.setAttribute("class", "buttonMIO");
                 boton.textContent = "Agregar a favorito";
                 celdaBoton.appendChild(boton);
@@ -174,11 +144,19 @@ function BuscarPorAutor() {
             console.error("Elemento con id 'tabla' no encontrado.");
         }
     })
-    .catch(error => console.error("Error en la petición:", error));
+    .catch(error => {
+        console.error("Error en la petición:", error);
+        alert("Hubo un problema al buscar los libros. Por favor, inténtalo de nuevo.");
+    });
 }
 
 function BuscarPorPalabra() {
     const palabra = document.getElementById("tituloAbuscar").value;
+
+    if (!palabra.trim()) {
+        alert("Por favor, ingresa una palabra para buscar.");
+        return;
+    }
 
     fetch("/api/libros/buscarPorPalabra", {
         method: "POST",
@@ -230,7 +208,7 @@ function BuscarPorPalabra() {
                 const celdaBoton = fila.insertCell();
                 const boton = document.createElement("button");
                 boton.setAttribute("align", "justify");
-                boton.setAttribute("onclick", `prueba(${i})`);
+                boton.setAttribute("onclick", `agregarFavorito(${i})`);
                 boton.setAttribute("class", "buttonMIO");
                 boton.textContent = "Agregar a favorito";
                 celdaBoton.appendChild(boton);
@@ -238,6 +216,43 @@ function BuscarPorPalabra() {
         } else {
             console.error("Elemento con id 'tabla' no encontrado.");
         }
+    })
+    .catch(error => {
+        console.error("Error en la petición:", error);
+        alert("Hubo un problema al buscar los libros. Por favor, inténtalo de nuevo.");
+    });
+}
+
+function agregarFavorito(index) {
+    const tabla = document.getElementById("tabla");
+    const fila = tabla.rows[index + 1]; // +1 porque la primera fila es el encabezado
+
+    const idUsuario = document.getElementById("idUsuario").value;
+    const idLibro = fila.cells[3].textContent;
+    const titulo = fila.cells[1].textContent;
+    const idAutor = fila.cells[4].textContent;
+    const nombreAutor = fila.cells[2].textContent;
+    const yearP = fila.cells[5].textContent;
+    const imagen = fila.cells[0].querySelector("img").src.split('/').pop().split('-')[0];
+
+    fetch("/LibroFavorito", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+            idUsuario: idUsuario,
+            idLibro: idLibro,
+            titulo: titulo,
+            idAutor: idAutor,
+            nombreAutor: nombreAutor,
+            yearP: yearP,
+            imagen: imagen
+        })
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
     })
     .catch(error => console.error("Error en la petición:", error));
 }
@@ -260,6 +275,76 @@ function listaHistorial() {
     })
     .catch(error => console.error("Error en la petición:", error));
 }
+
+function mostrarHistorialFavoritos() {
+    const idUsuario = document.getElementById("idUsuario").value;
+
+    if (!idUsuario) {
+        alert("ID de usuario no definido. Por favor, inicia sesión.");
+        return;
+    }
+
+    const url = `/LibroFavorito/favoritos?idUsuario=${idUsuario}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (!Array.isArray(data)) {
+                throw new TypeError("La respuesta no es un array");
+            }
+
+            const tabla = document.getElementById("tablaH");
+            if (tabla) {
+                while (tabla.rows.length > 1) {
+                    tabla.deleteRow(1);
+                }
+
+                data.forEach(libro => {
+                    const fila = tabla.insertRow();
+
+                    // Columna de Imagen
+                    const celdaImagen = fila.insertCell();
+                    celdaImagen.setAttribute("align", "center");
+                    const img = document.createElement("img");
+                    img.src = libro.imagen ? `https://covers.openlibrary.org/b/id/${libro.imagen}-M.jpg` : "default_image.jpg";
+                    img.className = "box";
+                    celdaImagen.appendChild(img);
+
+                    // Columna de Título
+                    const celdaTitulo = fila.insertCell();
+                    celdaTitulo.setAttribute("align", "center");
+                    celdaTitulo.textContent = libro.titulo;
+
+                    // Columna de Autor
+                    const celdaAutor = fila.insertCell();
+                    celdaAutor.setAttribute("align", "center");
+                    celdaAutor.textContent = libro.nombreAutor;
+
+                    // Columna de Clave Libro
+                    const celdaIdLibro = fila.insertCell();
+                    celdaIdLibro.setAttribute("align", "center");
+                    celdaIdLibro.textContent = libro.idLibro;
+
+                    // Columna de Clave Autor
+                    const celdaIdAutor = fila.insertCell();
+                    celdaIdAutor.setAttribute("align", "center");
+                    celdaIdAutor.textContent = libro.idAutor;
+
+                    // Columna de Primera Publicación
+                    const celdaFechaPublicacion = fila.insertCell();
+                    celdaFechaPublicacion.setAttribute("align", "center");
+                    celdaFechaPublicacion.textContent = libro.yearP;
+                });
+            } else {
+                console.error("Elemento con id 'tablaH' no encontrado.");
+            }
+        })
+        .catch(error => {
+            console.error("Error en la petición:", error);
+            alert("Hubo un problema al cargar el historial de libros favoritos. Por favor, inténtalo de nuevo.");
+        });
+}
+
 
 function redireccionarMenu() {
     let URL = '/Nombre_Personalizado_De_Mi_Proyecto/menu.html?q=' + id + '&n=' + nombre;

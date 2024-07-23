@@ -241,33 +241,29 @@ public class UtilDB{
         return lista;
     }
     
-    public List<Libro> cargaListaLibrosFavoritos(int idBuscar) throws ClassNotFoundException{
-        List<Libro> lista = new ArrayList<Libro>(); 
-        try{
+    public List<Libro> cargaListaLibrosFavoritos(int idBuscar) throws ClassNotFoundException {
+        List<Libro> lista = new ArrayList<>(); 
+        try {
             Class.forName("org.mariadb.jdbc.Driver");
-            
             Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/libros", "admin", "admin");
             if (conn != null) {
                 System.out.println("UtilBD ====> Conectado a la base de datos de libros ");
                 Statement st = conn.createStatement();
 
-                String query = "SELECT * FROM librosfavoritos WHERE idUsuario = '" + idBuscar +"';";
-                //String query = "SELECT * FROM gustoautor WHERE idUsuario = '2';";
+                String query = "SELECT * FROM librosfavoritos WHERE idUsuario = '" + idBuscar + "';";
                 ResultSet rs = st.executeQuery(query);
-                while (rs.next()){
-                    
-                    String id = rs.getString("idUsuario");  
+                while (rs.next()) {
+                    String id = rs.getString("id");  
                     String idUsuario = rs.getString("idUsuario");
                     String idLibro = rs.getString("idLibro");
                     String titulo = rs.getString("titulo");               
                     String idAutor = rs.getString("idAutor"); 
                     String nombreAutor = rs.getString("nombreAutor"); 
-                    String FechaRecomendacion = rs.getString("yearP");
+                    String yearP = rs.getString("yearP");
                     String imagen = rs.getString("imagen");
-                             
-                    
-                    Libro recomendacion = new Libro (idUsuario, id, idUsuario, idLibro, titulo, idAutor, nombreAutor);
-                    
+                    String fechaRecomendacion = rs.getString("FechaRecomendacion");
+
+                    Libro recomendacion = new Libro(idUsuario, idLibro, titulo, idAutor, nombreAutor, yearP, imagen);
                     lista.add(recomendacion);
                 }
             }
@@ -278,7 +274,7 @@ public class UtilDB{
         }
         return lista;
     }
-    
+
     public List<RecomiendaTema> cargaListaRecomendacionTema(int idBuscar) throws ClassNotFoundException{
         List<RecomiendaTema> lista = new ArrayList<RecomiendaTema>(); 
         try{

@@ -42,7 +42,7 @@
             </div>
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
             <label for="tab-1" class="tab">Buscar</label>
-            <input id="tab-2" type="radio" name="tab" class="sign-up">
+            <input id="tab-2" type="radio" name="tab" class="sign-up" onclick="mostrarHistorialFavoritos()">
             <label for="tab-2" class="tab">Mis favoritos</label>
 
             <div class="login-form">
@@ -74,7 +74,7 @@
                             <input type="text" name="imagen" id="imagen">
                             <input type="text" name="nombre" id="nombre">
                             <input type="text" name="Primerapublicacion" id="Primerapublicacion">
-                            <img id="img1" class="box" src="book.png">
+                            <img id="img1" src="book.png">
                         </div>
                         <div class="hr"></div>
                     </form>
@@ -108,6 +108,7 @@
                         <table border="0" width="100%" id="tablaH">
                             <thead>
                                 <tr>
+                                    <th align="center"><div class="label">Imagen Libro</div></th>
                                     <th align="center"><div class="label">Titulo</div></th>
                                     <th align="center"><div class="label">Autor</div></th>
                                     <th align="center"><div class="label">Clave Libro</div></th>
@@ -120,7 +121,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="hr"></div>
+
                     <div class="group">
                         <button class="button" onclick="redireccionarMenu()">Menu</button>
                     </div>
@@ -129,4 +130,4 @@
         </div>
     </div>
 </body>
-</html>                                    
+</html>                         
