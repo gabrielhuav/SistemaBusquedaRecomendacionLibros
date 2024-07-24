@@ -2,8 +2,28 @@
 <html>
     <head>
         <link type="text/css" href="2Columnas.css" rel="stylesheet">
-        <! -- IMPORTANTE: PONER EL ARCHIVO DEl ZIP ... --> 
-        <style>
+        <style>  
+        #MIO  {         
+            display: none;
+         }
+         
+         .box{
+            width: 300px;
+            height: 300px;
+            overflow: hidden;
+          }
+          
+          .box img{
+            width: 100%;
+            height: auto;
+          }
+          
+           @supports(object-fit: cover){
+            .box img{
+              height: 100%;
+              object-fit: cover;
+              object-position: center center;
+        }
         </style>
         <script src="RecomendacionAutor.js"></script>
     </head>
@@ -74,44 +94,42 @@
                             </div>
                         </div>
                      
-                    <div class="sign-up-htm">
-                      <form method="POST" action = "/AutorFavorito">                        
-                           
+                        <div class="sign-up-htm">
+                           <form method="POST" action="/AutorFavorito">
+
+                               <div class="group">
+                                   <label for="user" class="label">Historal de recomendaciones</label>
+                               </div>
+
+                               <div class="group" align="center">
+                                   <table border="0" width="100%" id="tabla-historial">
+                                       <tr>
+                                           <td align="center">
+                                               <div class="label">Imagen del Libro</div>
+                                           </td>
+                                           <td align="center">
+                                               <div class="label">Título</div>
+                                           </td>
+                                           <td align="center">
+                                               <div class="label">Autor</div>
+                                           </td>
+                                           <td align="center">
+                                               <div class="label">Id libro</div>
+                                           </td>
+                                           <td align="center">
+                                               <div class="label">Id autor</div>
+                                           </td>
+                                           <td align="center">
+                                               <div class="label">Fecha de recomendación</div>
+                                           </td>
+                                       </tr>
+                                   </table>
+                               </div>
+                               <div class="hr"></div>
+                           </form>
                            <div class="group">
-                                <label for="user" class="label"> Historal de recomendaciones </label>
-                            </div>
-                          
-                                                 
-                            <div class="group" align="center">
-                                <table border="0" width="100%" id="tabla">
-                
-                                    <td align="center">
-                                        <div class="label" >Titulo</div>
-                                    </td>  
-                                    
-                                    <td align="center">
-                                        <div class="label" >Autor</div>
-                                    </td> 
-
-                                    <td align="center">
-                                        <div class="label">Id libro</div>
-                                    </td>
-
-                                    <td align="center">
-                                        <div class="label">Id autor</div>
-                                    </td>
-
-                                    <td align="center">
-                                        <div class="label">Fecha de recomendacion</div>
-                                    </td>
-                                    
-                                </table>
-                            </div>
-                            <div class="hr"></div>                                                       
-                        </form>
-                        <div class="group">       
-                                <button class="button" onclick="redireccionarMenu()">Menu</button>
-                        </div>
+                               <button class="button" onclick="redireccionarMenu()">Menu</button>
+                           </div>
 
                     </div>              
                 </div>

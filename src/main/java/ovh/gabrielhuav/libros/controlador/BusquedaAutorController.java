@@ -111,7 +111,7 @@ public class BusquedaAutorController {
                                                 @RequestParam("idUsuario") String idUsuario)
             throws ClassNotFoundException, URISyntaxException, ParseException {
         RecomiendaAutor recomienda = util.RecomiendaPorAutor(idAutor, idUsuario, nombreAutor);
-        util.registarRecomendacionAutor(recomienda);
+        util.registrarRecomendacionAutor(recomienda);
 
         String a = recomienda.getIdLibro().replaceAll(" ", "+");
         String b = recomienda.getTitulo().replaceAll(" ", "+");

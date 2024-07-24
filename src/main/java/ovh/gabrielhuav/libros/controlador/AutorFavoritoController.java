@@ -1,5 +1,6 @@
 package ovh.gabrielhuav.libros.controlador;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import paq.GustoAutor;
 import paq.RecomiendaAutor;
@@ -24,6 +26,9 @@ public class AutorFavoritoController {
 
     @Autowired
     private UtilDB util;
+    
+    @Autowired
+    private AutorFavoritoService autorFavoritoService;
 
     @GetMapping("/{id}")
     public ResponseEntity<List<GustoAutor>> getHtml(@PathVariable int id) throws ClassNotFoundException {
@@ -48,9 +53,9 @@ public class AutorFavoritoController {
     }
     
     @GetMapping("/historial/{idUsuario}")
-    public ResponseEntity<List<RecomiendaAutor>> getHistorial(@PathVariable int idUsuario) throws ClassNotFoundException {
-        List<RecomiendaAutor> lista = util.cargaListaRecomendacionAutor(idUsuario);
-        return new ResponseEntity<>(lista, HttpStatus.OK);
+    @ResponseBody
+    public List<RecomiendaAutor> getHistorial(@PathVariable int idUsuario) {
+        return autorFavoritoService.getHistorial(idUsuario);
     }
 
     @PutMapping

@@ -1,7 +1,6 @@
  package paq;
 
 import java.io.UnsupportedEncodingException;
-import static java.lang.System.console; 
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -14,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -373,24 +371,32 @@ public class UtilDB{
         }
     }
     
-    public void registarRecomendacionAutor(RecomiendaAutor recomendacion) throws ClassNotFoundException {
+    public void registrarRecomendacionAutor(RecomiendaAutor recomendacion) throws ClassNotFoundException {
+        if (recomendacion == null) {
+            System.err.println("Error: La recomendación es null");
+            return;
+        }
+
         try {
             Class.forName("org.mariadb.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/libros", "admin", "admin");
             if (conn != null) {
-                
-                Statement st = conn.createStatement();
-
-                String query =  "insert into recomendacionautor ( idUsuario, idLibro, titulo, idAutor, nombreAutor, imagen) values('" + recomendacion.getIdUsuario() + "', '" + recomendacion.getIdLibro() + "', '" + recomendacion.getTitulo() +  "', '" + recomendacion.getIdAutor() + "', '" + recomendacion.getNombreAutor() +  "', '" + recomendacion.getImagen() + "')";
-                System.out.println(query);
-                st.executeUpdate(query);
+                String query = "INSERT INTO recomendacionautor (idUsuario, idLibro, titulo, idAutor, nombreAutor, imagen) VALUES (?, ?, ?, ?, ?, ?)";
+                PreparedStatement pstmt = conn.prepareStatement(query);
+                pstmt.setString(1, recomendacion.getIdUsuario());
+                pstmt.setString(2, recomendacion.getIdLibro());
+                pstmt.setString(3, recomendacion.getTitulo());
+                pstmt.setString(4, recomendacion.getIdAutor());
+                pstmt.setString(5, recomendacion.getNombreAutor());
+                pstmt.setString(6, recomendacion.getImagen());
+                pstmt.executeUpdate();
             }
-        }
-        catch(SQLException ex){
+        } catch (SQLException ex) {
             System.err.println(ex.getMessage());
             Logger.getLogger(UtilDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     
     public void registarLibroFavorito(Libro libro) throws ClassNotFoundException {
         try {
@@ -453,60 +459,18 @@ public class UtilDB{
     }
     
     
-public Object buscarAutor(String id) throws ClassNotFoundException, ParseException, UnsupportedEncodingException {
-    RestTemplate restTemplate = new RestTemplate();
-    String bautor = "https://openlibrary.org/authors/" + id + ".json";
-    System.out.println("Primero trato de buscar por id: " + id);
+    public Object buscarAutor(String id) throws ClassNotFoundException, ParseException, UnsupportedEncodingException {
+        RestTemplate restTemplate = new RestTemplate();
+        String bautor = "https://openlibrary.org/authors/" + id + ".json";
+        System.out.println("Primero trato de buscar por id: " + id);
 
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-    HttpEntity<String> request = new HttpEntity<>(headers);
-    ResponseEntity<String> response;
+        HttpEntity<String> request = new HttpEntity<>(headers);
+        ResponseEntity<String> response;
 
-    try {
-        response = restTemplate.exchange(bautor, HttpMethod.GET, request, String.class);
-        System.out.println("Status: " + response.getStatusCode());
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            JSONParser parser = new JSONParser();
-            JSONObject responseJSON = (JSONObject) parser.parse(response.getBody());
-
-            System.out.println("Resultado " + responseJSON.toJSONString());
-
-            String keyS = responseJSON.containsKey("key") ? responseJSON.get("key").toString() : "null";
-            String nombreS = responseJSON.containsKey("name") ? responseJSON.get("name").toString() : "null";
-            String topWorkS = responseJSON.containsKey("top_work") ? responseJSON.get("top_work").toString() : "null";
-            String fechaNacS = responseJSON.containsKey("birth_date") ? responseJSON.get("birth_date").toString() : "null";
-            String fechaFinS = responseJSON.containsKey("death_date") ? responseJSON.get("death_date").toString() : "null";
-            //String bioS = responseJSON.containsKey("bio") ? responseJSON.get("bio").toString() : "null";
-            String bioV = "";
-            
-            if (responseJSON.containsKey("bio")) {
-                JSONObject bioObject = (JSONObject) responseJSON.get("bio");
-                String bioS = (String) bioObject.get("value");
-                System.out.println("el valor filtrado del json es:" + bioS);
-                bioV = bioS;
-            } else {
-                // manejar el caso en que "bio" no existe
-            }
-
-            System.out.println("ID: " + keyS);
-            System.out.println("Nombre: " + nombreS);
-            System.out.println("Su mejor trabajo: " + topWorkS);
-            System.out.println("Año nacimiento: " + fechaNacS);
-            System.out.println("Año muerte: " + fechaFinS);
-            System.out.println("Biografia: " + bioV);
-
-            return new Autor(keyS, nombreS, topWorkS, fechaNacS, fechaFinS, bioV);
-        }
-    } catch (HttpClientErrorException e) {
-        if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
-            System.out.println("No se encontró autor con ID " + id + ", buscando por nombre: " + id);
-
-            String nombreEscapado = URLEncoder.encode(id, StandardCharsets.UTF_8.toString());
-            bautor = "https://openlibrary.org/search/authors.json?q=" + nombreEscapado;
-
+        try {
             response = restTemplate.exchange(bautor, HttpMethod.GET, request, String.class);
             System.out.println("Status: " + response.getStatusCode());
 
@@ -516,45 +480,86 @@ public Object buscarAutor(String id) throws ClassNotFoundException, ParseExcepti
 
                 System.out.println("Resultado " + responseJSON.toJSONString());
 
-                Object encontrados = responseJSON.get("numFound");
-                if (encontrados == null || Integer.parseInt(encontrados.toString()) == 0) {
-                    return null; // No se encontraron autores
+                String keyS = responseJSON.containsKey("key") ? responseJSON.get("key").toString() : "null";
+                String nombreS = responseJSON.containsKey("name") ? responseJSON.get("name").toString() : "null";
+                String topWorkS = responseJSON.containsKey("top_work") ? responseJSON.get("top_work").toString() : "null";
+                String fechaNacS = responseJSON.containsKey("birth_date") ? responseJSON.get("birth_date").toString() : "null";
+                String fechaFinS = responseJSON.containsKey("death_date") ? responseJSON.get("death_date").toString() : "null";
+                //String bioS = responseJSON.containsKey("bio") ? responseJSON.get("bio").toString() : "null";
+                String bioV = "";
+
+                if (responseJSON.containsKey("bio")) {
+                    JSONObject bioObject = (JSONObject) responseJSON.get("bio");
+                    String bioS = (String) bioObject.get("value");
+                    System.out.println("el valor filtrado del json es:" + bioS);
+                    bioV = bioS;
+                } else {
+                    // manejar el caso en que "bio" no existe
                 }
 
-                System.out.println("numFound " + encontrados.toString());
+                System.out.println("ID: " + keyS);
+                System.out.println("Nombre: " + nombreS);
+                System.out.println("Su mejor trabajo: " + topWorkS);
+                System.out.println("Año nacimiento: " + fechaNacS);
+                System.out.println("Año muerte: " + fechaFinS);
+                System.out.println("Biografia: " + bioV);
 
-                JSONArray busqueda = (JSONArray) responseJSON.get("docs");
-                List<Autor> autores = new ArrayList<>();
-
-                for (Object obj : busqueda) {
-                    JSONObject autorJSON = (JSONObject) obj;
-                    String keyS = autorJSON.containsKey("key") ? autorJSON.get("key").toString() : "null";
-                    String nombreS = autorJSON.containsKey("name") ? autorJSON.get("name").toString() : "null";
-                    String topWorkS = autorJSON.containsKey("top_work") ? autorJSON.get("top_work").toString() : "null";
-                    String fechaNacS = autorJSON.containsKey("birth_date") ? autorJSON.get("birth_date").toString() : "null";
-                    String fechaFinS = autorJSON.containsKey("death_date") ? autorJSON.get("death_date").toString() : "null";
-                    String temasAutorS = autorJSON.containsKey("top_subjects") ? autorJSON.get("top_subjects").toString() : "null";
-
-                    System.out.println("ID: " + keyS);
-                    System.out.println("Nombre: " + nombreS);
-                    System.out.println("Su mejor trabajo: " + topWorkS);
-                    System.out.println("Año nacimiento: " + fechaNacS);
-                    System.out.println("Año muerte: " + fechaFinS);
-                    System.out.println("Biografiaa: " + temasAutorS);
-
-                    Autor autor = new Autor(keyS, nombreS, topWorkS, fechaNacS, fechaFinS, temasAutorS);
-                    autores.add(autor);
-                }
-
-                return autores;
+                return new Autor(keyS, nombreS, topWorkS, fechaNacS, fechaFinS, bioV);
             }
-        } else {
-            throw e; // Re-throw other exceptions
-        }
-    }
-    return null;
-}
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                System.out.println("No se encontró autor con ID " + id + ", buscando por nombre: " + id);
 
+                String nombreEscapado = URLEncoder.encode(id, StandardCharsets.UTF_8.toString());
+                bautor = "https://openlibrary.org/search/authors.json?q=" + nombreEscapado;
+
+                response = restTemplate.exchange(bautor, HttpMethod.GET, request, String.class);
+                System.out.println("Status: " + response.getStatusCode());
+
+                if (response.getStatusCode() == HttpStatus.OK) {
+                    JSONParser parser = new JSONParser();
+                    JSONObject responseJSON = (JSONObject) parser.parse(response.getBody());
+
+                    System.out.println("Resultado " + responseJSON.toJSONString());
+
+                    Object encontrados = responseJSON.get("numFound");
+                    if (encontrados == null || Integer.parseInt(encontrados.toString()) == 0) {
+                        return null; // No se encontraron autores
+                    }
+
+                    System.out.println("numFound " + encontrados.toString());
+
+                    JSONArray busqueda = (JSONArray) responseJSON.get("docs");
+                    List<Autor> autores = new ArrayList<>();
+
+                    for (Object obj : busqueda) {
+                        JSONObject autorJSON = (JSONObject) obj;
+                        String keyS = autorJSON.containsKey("key") ? autorJSON.get("key").toString() : "null";
+                        String nombreS = autorJSON.containsKey("name") ? autorJSON.get("name").toString() : "null";
+                        String topWorkS = autorJSON.containsKey("top_work") ? autorJSON.get("top_work").toString() : "null";
+                        String fechaNacS = autorJSON.containsKey("birth_date") ? autorJSON.get("birth_date").toString() : "null";
+                        String fechaFinS = autorJSON.containsKey("death_date") ? autorJSON.get("death_date").toString() : "null";
+                        String temasAutorS = autorJSON.containsKey("top_subjects") ? autorJSON.get("top_subjects").toString() : "null";
+
+                        System.out.println("ID: " + keyS);
+                        System.out.println("Nombre: " + nombreS);
+                        System.out.println("Su mejor trabajo: " + topWorkS);
+                        System.out.println("Año nacimiento: " + fechaNacS);
+                        System.out.println("Año muerte: " + fechaFinS);
+                        System.out.println("Biografiaa: " + temasAutorS);
+
+                        Autor autor = new Autor(keyS, nombreS, topWorkS, fechaNacS, fechaFinS, temasAutorS);
+                        autores.add(autor);
+                    }
+
+                    return autores;
+                }
+            } else {
+                throw e; // Re-throw other exceptions
+            }
+        }
+        return null;
+    }
         
     public RecomiendaAutor RecomiendaPorAutor(String idAutor, String idUsuario, String nombreAutor) throws ParseException {
         RestTemplate restTemplate = new RestTemplate();
@@ -564,7 +569,17 @@ public Object buscarAutor(String id) throws ClassNotFoundException, ParseExcepti
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> request = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(bautor, HttpMethod.GET, request, String.class);
+        ResponseEntity<String> response;
+        try {
+            response = restTemplate.exchange(bautor, HttpMethod.GET, request, String.class);
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                System.err.println("Error: La clave no se encontró en el servicio");
+                return null; // O maneja el error de otra manera adecuada
+            } else {
+                throw e; // Re-lanzar la excepción si no es un error 404
+            }
+        }
 
         System.out.println("Status: " + response.getStatusCode());
 
@@ -573,44 +588,25 @@ public Object buscarAutor(String id) throws ClassNotFoundException, ParseExcepti
 
         System.out.println("Resultado " + responseJSON.toJSONString());
 
-        Object encontrados = (Object) responseJSON.get("size");
+        Object encontrados = responseJSON.get("size");
+        if (encontrados == null) {
+            throw new NullPointerException("El campo 'size' no se encontró en la respuesta JSON");
+        }
         System.out.println("numFound " + encontrados.toString());
 
-        int jsonInt = Integer.valueOf((String) encontrados.toString());
+        int jsonInt = Integer.parseInt(encontrados.toString());
         if (jsonInt > 100) {
             jsonInt = 100;
         }
-        int Random = (int) (Math.random() * jsonInt);
+        int random = (int) (Math.random() * jsonInt);
 
         JSONArray busqueda = (JSONArray) responseJSON.get("entries");
         System.out.println("Autor " + busqueda.toJSONString());
-        JSONObject libro = (JSONObject) busqueda.get(Random);
+        JSONObject libro = (JSONObject) busqueda.get(random);
 
-        Object key = (Object) libro.get("key");
-        Object titulo = (Object) libro.get("title");
-        List<Integer> imagen = (List<Integer>) libro.get("covers");
-
-        String keyS = "" ;
-        String tituloS = "" ;
-        String imagenS = "" ;
-
-        if (libro.containsKey("key")){              
-            keyS = key.toString();
-        }else {
-            keyS = "null";
-        }
-
-        if (libro.containsKey("title")){
-            tituloS = titulo.toString();
-        }else {
-            tituloS = "null";
-        }
-
-        if (libro.containsKey("covers")){
-            imagenS = String.valueOf(imagen.get(0));
-        }else {
-            imagenS = "null";
-        }
+        String keyS = libro.containsKey("key") ? libro.get("key").toString() : "null";
+        String tituloS = libro.containsKey("title") ? libro.get("title").toString() : "null";
+        String imagenS = libro.containsKey("covers") ? String.valueOf(((List<Integer>) libro.get("covers")).get(0)) : "null";
 
         RecomiendaAutor recomendacion = new RecomiendaAutor(idUsuario, keyS, tituloS, idAutor, nombreAutor, imagenS);
 
