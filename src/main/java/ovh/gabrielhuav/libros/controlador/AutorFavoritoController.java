@@ -45,7 +45,6 @@ public class AutorFavoritoController {
     @PostMapping
     public ResponseEntity<String> registarAutorFavorito(@RequestParam("idUsuario") String idUsuario, 
                                                        @RequestParam("idAutor") String idAutor, 
-                                                       @RequestParam("nombre") String nombre, 
                                                        @RequestParam("nombreAutor") String nombreAutor) throws ClassNotFoundException {
         GustoAutor gusto = new GustoAutor(idUsuario, idAutor, nombreAutor);
         util.registarGustoAutor(gusto);

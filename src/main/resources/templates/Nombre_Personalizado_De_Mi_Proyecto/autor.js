@@ -87,6 +87,29 @@ window.onload = async function( ) {
     
 }
 
+function agregarAutorFavorito() {
+    const idAutor = document.getElementById('idAutor').value;
+    const nombreAutor = document.getElementById('nombreAutor').value;
+    const idUsuario = document.getElementById('idUsuario').value;
+
+    fetch("/AutorFavorito", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+            idUsuario: idUsuario,
+            idAutor: idAutor,
+            nombreAutor: nombreAutor
+        })
+    })
+   .then(response => response.text())
+   .then(data => {
+        alert(data);
+    })
+   .catch(error => console.error("Error en la petición:", error));
+}
+
 function redireccionarMenu(){
     let URL = 'http://localhost:8080/Nombre_Personalizado_De_Mi_Proyecto/menu.html?q=' + id + '&n=' + nombre ;
     location.href= URL;
