@@ -243,6 +243,31 @@ function mostrarHistorial() {
        .catch(error => console.log('Fetch Error:', error));
 }
 
+function recomendar() {
+    let idUsuario = document.getElementById("idUsuario").value;
+    let idAutor = document.getElementById("idAutor").value;
+    let nombreAutor = document.getElementById("nombreAutor").value;
+    let nombre = document.getElementById("nombre").value;
+
+    fetch("/busquedaAutor/Recomienda", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+            idAutor: idAutor,
+            nombreAutor: nombreAutor,
+            nombre: nombre,
+            idUsuario: idUsuario
+        })
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert("Recomendación realizada correctamente!");
+    })
+    .catch(error => console.error("Error en la petición:", error));
+}
+
 function redireccionarMenu() {
     let URL = 'http://localhost:8080/Nombre_Personalizado_De_Mi_Proyecto/menu.html?q=' + id + '&n=' + nombre;
     location.href = URL;

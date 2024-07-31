@@ -345,7 +345,6 @@ function mostrarHistorialFavoritos() {
         });
 }
 
-
 function redireccionarMenu() {
     let URL = '/Nombre_Personalizado_De_Mi_Proyecto/menu.html?q=' + id + '&n=' + nombre;
     location.href = URL;
