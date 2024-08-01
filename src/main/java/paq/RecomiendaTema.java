@@ -1,9 +1,5 @@
 package paq;
 
-/**
- * Atributos para los usuarios/
- * @author xido_
- */
 
 public class RecomiendaTema {
     
@@ -48,14 +44,6 @@ public class RecomiendaTema {
         this.nombreAutor = nombreAutor;
         this.tema = tema;
         this.imagen = imagen;
-    }
-
-    RecomiendaTema(RecomiendaTema buscarAutor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    RecomiendaTema() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getId() {

@@ -2,9 +2,41 @@
 <html>
     <head>
         <link type="text/css" href="3Columnas.css" rel="stylesheet">
-        <! -- IMPORTANTE: PONER EL ARCHIVO DEl ZIP ... --> 
-        <style>
+        <style>  
+        #MIO  {         
+            display: none;
+         }
+         
+         .box{
+            width: 350px;
+            height: 550px;
+            overflow: hidden;
+          }
+          
+          .box1{
+            width: 128px;
+            height: 193px;
+            overflow: hidden;
+          }
+          
+          .box img{
+            width: 100%;
+            height: auto;
+          }
+          
+          .box1 img{
+            width: auto;
+            height: auto;
+          }
+          
+           @supports(object-fit: cover){
+            .box img{
+              height: 100%;
+              object-fit: cover;
+              object-position: center center;
+        }
         </style>
+	<script src="PreferenciaTema.js"></script>
     </head>
     <body>
         <div class="login-wrap">
@@ -23,8 +55,8 @@
                         <form method="post" action = "/Temas">
                             <div class="group">
                                 <label for="user" class="label" > Selecciona un tema :</label> 
-                                <select name="cliente" id="cliente" onchange="cambioSelect()" class="input">
-                                    <option>Selecciona un tema </option>
+                                <select name="listaDinamicaTemas" id="listaDinamicaTemas" onchange="cambioSelect()" class="input">
+                                    <!-- opciones se agregarán dinámicamente con JavaScript -->
                                 </select> <br>           
                             </div>
 
@@ -52,7 +84,7 @@
                            <div class="group">
                                     <label for="user" class="label" > Selecciona un tema :</label> 
                                     <select name="selectGusto" id="selectGusto" onchange="cambioSelectGusto()" class="input">
-                                        <option>Selecciona un tema</option>
+                                        <!-- opciones se agregarán dinámicamente con JavaScript -->
                                     </select> <br>           
                             </div>
                                                  
@@ -145,7 +177,5 @@
                 </div>
             </div>
         </div>
-        
-        <script src="PreferenciaTema.js"></script>
     </body>
 </html>

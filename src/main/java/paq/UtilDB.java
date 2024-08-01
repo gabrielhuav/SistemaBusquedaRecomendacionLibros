@@ -184,7 +184,7 @@ public class UtilDB{
                 ResultSet rs = st.executeQuery(query);
                 while (rs.next()){
                     
-                    String id = rs.getString("idUsuario");  
+                    String id = rs.getString("id");  
                     String clave = rs.getString("clave");  
                     String traduccion = rs.getString("traduccion");  
 
@@ -420,7 +420,7 @@ public class UtilDB{
         }
     }
     
-    public void registarRecomendacionTema(RecomiendaTema recomendacion) throws ClassNotFoundException {
+    public void registrarRecomendacionTema(RecomiendaTema recomendacion) throws ClassNotFoundException {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/libros", "admin", "admin");
@@ -439,7 +439,7 @@ public class UtilDB{
         }
     }
     
-    public void temasFavoritos(String idUsuario,String idTema, String tema) throws ClassNotFoundException {
+    public void registrarTemaFavoritoUsuario(String idUsuario,String idTema, String tema) throws ClassNotFoundException {
     
         try {
             Class.forName("org.mariadb.jdbc.Driver");

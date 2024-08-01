@@ -2,7 +2,6 @@ package paq;
 
 import java.util.List;
 
-
 public class GustoTemas {
     
     private String id;
@@ -21,14 +20,6 @@ public class GustoTemas {
         this.idUsuario = idUsuario;
         this.idtema = idtema;
         this.tema = tema;
-    }
-    
-    GustoTemas() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    GustoTemas(List<GustoTemas> lista) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getId() {

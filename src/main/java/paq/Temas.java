@@ -18,14 +18,6 @@ public class Temas {
         this.clave = clave;
         this.traduccion = traduccion;
     }
-    
-    Temas() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    Temas(List<Temas> lista) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public String getId() {
         return id;
