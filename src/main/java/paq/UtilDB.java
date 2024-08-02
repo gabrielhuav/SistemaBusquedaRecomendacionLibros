@@ -138,7 +138,7 @@ public class UtilDB{
         return lista;
     }
     
-    public List<GustoTemas> cargaListaGustoTemas(int idBuscar) throws ClassNotFoundException{
+    public List<GustoTemas> cargaListaGustoTemas(String idBuscar) throws ClassNotFoundException{
         List<GustoTemas> lista = new ArrayList<GustoTemas>(); 
         try{
             Class.forName("org.mariadb.jdbc.Driver");

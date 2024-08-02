@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,11 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import paq.GustoTemas;
+import com.google.gson.Gson;
 
+import paq.GustoTemas;
 import paq.UtilDB;
 import paq.RecomiendaTema;
 import paq.Temas;
+import paq.Usuario;
 
 @Controller
 @RequestMapping("/Temas")
@@ -48,19 +51,19 @@ public class TemasController {
     }
     
     @PostMapping("/registraGusto")
-    public ResponseEntity<String> recomendar(@RequestParam("idUsuario1") String idUsuario1, 
-                                             @RequestParam("temaUsuario") String temaUsuario, 
+    public ResponseEntity<String> recomendar(@RequestParam("idUsuario") String idUsuario, 
+                                             @RequestParam("tema") String tema, 
                                              @RequestParam("claveTema") String claveTema) throws ParseException, ClassNotFoundException {
         // Recomendar libro based on tema and user preferences
-        RecomiendaTema recomienda = utilDB.RecomiendaPorTema(claveTema, idUsuario1, temaUsuario);
+        RecomiendaTema recomienda = utilDB.RecomiendaPorTema(claveTema, idUsuario, tema);
         utilDB.registrarRecomendacionTema(recomienda);
         return ResponseEntity.ok("Recomendación realizada con éxito");
     }
     
     @GetMapping("/historial/{idUsuario}")
-    public String getHistorial(@PathVariable("idUsuario") int idUsuario, Model model) throws ClassNotFoundException {
+    public ResponseEntity<String> getHistorial(@PathVariable("idUsuario") String idUsuario) throws ClassNotFoundException {
         List<GustoTemas> historial = utilDB.cargaListaGustoTemas(idUsuario);
-        model.addAttribute("historial", historial);
-        return "historial";
+        Gson gson = new Gson(); // create an instance of Gson
+        return ResponseEntity.ok(gson.toJson(historial));
     }
 }

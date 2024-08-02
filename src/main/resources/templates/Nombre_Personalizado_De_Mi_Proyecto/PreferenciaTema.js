@@ -1,40 +1,5 @@
 let select = document.getElementById('listaDinamicaTemas');
 
-// Function to populate the select options dynamically
-function cargaSelect() {
-    fetch('/Temas')
-        .then(response => response.json())
-        .then(data => {
-            const select = document.getElementById('cliente');
-            select.innerHTML = ''; // clear the select options
-            data.forEach(tema => {
-                const option = document.createElement('option');
-                option.value = tema.id;
-                option.text = tema.traduccion;
-                select.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-// Function to handle the change event of the select element
-function cambioSelect() {
-    var select = document.getElementById('cliente');
-    var idTema = select.value;
-    var tema = select.options[select.selectedIndex].text;
-    document.getElementById('idTema').value = idTema;
-    document.getElementById('tema').value = tema;
-}
-
-//// Function to handle the change event of the select element for gusta tema
-//function cambioSelectGusto() {
-//    var select = document.getElementById('selectGusto');
-//    var idTema = select.value;
-//    var tema = select.options[select.selectedIndex].text;
-//    document.getElementById('claveTema').value = idTema;
-//    document.getElementById('temaUsuario').value = tema;
-//}
-
 function recuperarImagen(idLibro) {
     const url = 'https://openlibrary.org' + idLibro + '.json' ;
 
@@ -74,12 +39,91 @@ function cargaTemas() {
    .catch(error => console.error('Error:', error));
 }
 
+// Function to handle the change event of the select element for gusta tema
+function cargaSelectGusto() {
+    const idUsuarioInput = document.getElementById('idUsuario');
+    const idUsuario = idUsuarioInput.value;
+    console.log('idUsuario:', idUsuario); // Check if idUsuario is being populated correctly
+    if (!idUsuario) {
+        console.error('No idUsuario provided');
+        return;
+    }
+    fetch(`/Temas/historial/${idUsuario}`)
+       .then(response => response.text())
+       .then(data => {
+            const jsonData = JSON.parse(data);
+            const select = document.getElementById('selectGusto');
+            select.innerHTML = ''; // clear the select options
+            jsonData.forEach(gusto => {
+                const option = document.createElement('option');
+                option.value = gusto.tema;
+                option.text = gusto.tema;
+                select.appendChild(option);
+            });
+        })
+       .catch(error => console.error('Error:', error));
+}
+
+let currentSelection = null;
+
+function cambioSelectGusto() {
+    const idUsuarioInput = document.getElementById('idUsuario');
+    const idUsuario = idUsuarioInput.value;
+    console.log('idUsuario:', idUsuario); // Check if idUsuario is being populated correctly
+    if (!idUsuario) {
+        console.error('No idUsuario provided');
+        return;
+    }
+    const select = document.getElementById('selectGusto');
+    currentSelection = select.options[select.selectedIndex].text;
+    fetch(`/Temas/historial/${idUsuario}`)
+       .then(response => response.text())
+       .then(data => {
+            const jsonData = JSON.parse(data);
+            select.innerHTML = ''; // clear the select options
+            jsonData.forEach(gusto => {
+                const option = document.createElement('option');
+                option.value = gusto.tema;
+                option.text = gusto.tema;
+                select.appendChild(option);
+            });
+            // Restaurar la selección actual
+            select.value = currentSelection;
+        })
+       .catch(error => console.error('Error:', error));
+}
+
+function registrarGustoFavoritoUsuario() {
+    let idUsuario = document.getElementById("idUsuario").value;
+    let idTema = document.getElementById("idTema").value;
+    let tema = document.getElementById("tema").value;
+
+    fetch("/Temas", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+            idUsuario: idUsuario,
+            idTema: idTema,
+            tema: tema
+        })
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert("Tema agregado correctamente!");
+        cargaSelectGusto();
+    })
+    .catch(error => console.error("Error en la petición:", error));
+}
+
 function redireccionarMenu() {
     window.location.href = "Menu.html";
 }
 
 document.addEventListener("DOMContentLoaded", function() {
     cargaTemas();
+    cargaSelectGusto();
 });
 
 window.onload = async function() {
@@ -91,8 +135,6 @@ window.onload = async function() {
     console.log(id); 
     document.getElementById('idUsuario').value = id;
     document.getElementById('idUsuario1').value = id;
-    cargaSelect;
-    llenarListaRecomendacion();
     
     let a = urlParams.get('a');
     document.getElementById("tituloR").innerHTML = a; 
@@ -109,5 +151,6 @@ window.onload = async function() {
     let e = urlParams.get('e');
     document.getElementById("temaR").innerHTML= e;
     recuperarImagen(c);
-    console.log("Ya cargo")
+    cargaSelectGusto();
+    console.log("Ya cargo la página...");
 }
