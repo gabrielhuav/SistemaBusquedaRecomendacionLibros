@@ -20,23 +20,28 @@ function cambioSelect() {
     document.getElementById('tema').value = tema;
     
     let idtema = select.value;
-    document.getElementById('idTema').value = idtema;   
+    document.getElementById('idTema').value = idtema;
+    
+    // Set the value of claveTema
+    let claveTema = select.options[select.selectedIndex].getAttribute('data-clave');
+    document.getElementById('claveTema').value = claveTema;
 }
 
 function cargaTemas() {
     fetch('/Temas')
-   .then(response => response.json())
-   .then(data => {
+    .then(response => response.json())
+    .then(data => {
         const select = document.getElementById('listaDinamicaTemas');
         select.innerHTML = '<option>Selecciona un tema</option>';
         data.forEach(tema => {
             const option = document.createElement('option');
             option.value = tema.clave;
             option.text = tema.traduccion;
+            option.setAttribute('data-clave', tema.clave); // Set the data-clave attribute
             select.appendChild(option);
         });
     })
-   .catch(error => console.error('Error:', error));
+    .catch(error => console.error('Error:', error));
 }
 
 // Function to handle the change event of the select element for gusta tema
@@ -58,15 +63,26 @@ function cargaSelectGusto() {
                 const option = document.createElement('option');
                 option.value = gusto.tema;
                 option.text = gusto.tema;
+                option.setAttribute('data-clave', gusto.claveTema); // Set the data-clave attribute
                 select.appendChild(option);
             });
         })
        .catch(error => console.error('Error:', error));
 }
 
+async function getClaveFromTraduccion(traduccion) {
+    try {
+        const response = await fetch('/Temas/getClaveFromTraduccion?traduccion=' + traduccion);
+        const data = await response.text();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 let currentSelection = null;
 
-function cambioSelectGusto() {
+async function cambioSelectGusto() {
     const idUsuarioInput = document.getElementById('idUsuario');
     const idUsuario = idUsuarioInput.value;
     console.log('idUsuario:', idUsuario); // Check if idUsuario is being populated correctly
@@ -76,6 +92,10 @@ function cambioSelectGusto() {
     }
     const select = document.getElementById('selectGusto');
     currentSelection = select.options[select.selectedIndex].text;
+    let temaSeleccionado = select.options[select.selectedIndex].text;
+    let claveTema = await getClaveFromTraduccion(temaSeleccionado);
+    document.getElementById('claveTema').value = claveTema;
+    console.log("La clave es...: ", claveTema); // Check if claveTema is being populated correctly
     fetch(`/Temas/historial/${idUsuario}`)
        .then(response => response.text())
        .then(data => {
@@ -85,6 +105,7 @@ function cambioSelectGusto() {
                 const option = document.createElement('option');
                 option.value = gusto.tema;
                 option.text = gusto.tema;
+                option.setAttribute('data-clave', gusto.clave); // Set the data-clave attribute
                 select.appendChild(option);
             });
             // Restaurar la selección actual
@@ -115,6 +136,32 @@ function registrarGustoFavoritoUsuario() {
         cargaSelectGusto();
     })
     .catch(error => console.error("Error en la petición:", error));
+}
+
+function recomendar() {
+  let idUsuario = document.getElementById("idUsuario").value;
+  let tema = document.getElementById("tema").value;
+  let claveTema = document.getElementById("claveTema").value;
+
+  fetch("/Temas/registraGusto", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: new URLSearchParams({
+      idUsuario: idUsuario,
+      tema: tema,
+      claveTema: claveTema
+    })
+  })
+  .then(response => response.text())
+  .then(data => {
+    alert("Recomendacion por tema: ", claveTema);
+    cargaSelectGusto();
+  })
+  .catch(error => console.error("Error en la petición:", error));
+  console.log("La clave es...: ", claveTema);
+  console.log(claveTema);
 }
 
 function redireccionarMenu() {

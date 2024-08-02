@@ -36,6 +36,17 @@ public class TemasController {
         return listatemas;
     }
     
+     @GetMapping("/getClaveFromTraduccion")
+    public @ResponseBody String getClaveFromTraduccion(@RequestParam("traduccion") String traduccion) throws ClassNotFoundException {
+        List<Temas> temasList = getListaTemas();
+        for (Temas tema : temasList) {
+            if (tema.getTraduccion().equals(traduccion)) {
+                return tema.getClave();
+            }
+        }
+        return null; // or throw an exception if not found
+    }
+    
     @PostMapping
     public ResponseEntity<String> agregarTema(@RequestParam("idUsuario") String idUsuario, 
                                              @RequestParam("idTema") String idTema, 

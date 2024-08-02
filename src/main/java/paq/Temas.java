@@ -1,7 +1,5 @@
 package paq;
 
-import java.util.List;
-
 public class Temas {
     
     private String id;

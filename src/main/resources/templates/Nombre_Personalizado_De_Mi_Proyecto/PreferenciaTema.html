@@ -95,7 +95,10 @@
                             </div> 
 
                             <div class="group">
-                                 <input type="submit" class="button" name="boton"  value="Recomiendame" > 
+                                 <input type="hidden" name="idUsuario" value="${idUsuario}">
+                                 <input type="hidden" name="tema" value="${tema}">
+                                 <input type="hidden" name="claveTema" value="${claveTema}">
+                                 <input type="button" class="button" name="boton" value="Recomiendame" onclick="recomendar()">
                             </div>
                             
                             <div class="group">

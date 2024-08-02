@@ -639,7 +639,7 @@ public class UtilDB{
         Object encontrados = (Object) responseJSON.get("work_count");
         System.out.println("work_count " + encontrados.toString());
 
-        int Random = (int) (Math.random() * 100);
+        int Random = (int) (Math.random() * Integer.parseInt(encontrados.toString()));
 
         JSONArray busqueda = (JSONArray) responseJSON.get("works");
         JSONObject libro = (JSONObject) busqueda.get(Random);
