@@ -91,6 +91,10 @@ CREATE TABLE temas (
   traduccion VARCHAR(64) NOT NULL
 );
 
+ALTER TABLE recomendaciontema DROP CONSTRAINT recomendaciontema_ibfk_1;
+ALTER TABLE recomendaciontema CHANGE COLUMN idUsuario idUsuario VARCHAR(120) NOT NULL;
+ALTER TABLE recomendaciontema ADD CONSTRAINT recomendaciontema_ibfk_1 PRIMARY KEY (idUsuario);
+
 INSERT INTO temas (clave, traduccion)
 VALUES
     ('architecture', 'Arquitectura'),

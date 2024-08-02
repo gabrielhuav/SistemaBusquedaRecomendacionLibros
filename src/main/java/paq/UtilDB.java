@@ -380,10 +380,11 @@ public class UtilDB{
         try {
             Class.forName("org.mariadb.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/libros", "admin", "admin");
-            if (conn != null) {
-                String query = "INSERT INTO recomendacionautor (idUsuario, idLibro, titulo, idAutor, nombreAutor, imagen) VALUES (?, ?, ?, ?, ?, ?)";
+            if (conn!= null) {
+                String query = "INSERT INTO recomendacionautor (idUsuario, idLibro, titulo, idAutor, nombreAutor, imagen) VALUES (?,?,?,?,?,?)";
                 PreparedStatement pstmt = conn.prepareStatement(query);
-                pstmt.setString(1, recomendacion.getIdUsuario());
+                int idUsuario = Integer.parseInt(recomendacion.getIdUsuario()); // Convert string to int
+                pstmt.setInt(1, idUsuario); // Set the integer value
                 pstmt.setString(2, recomendacion.getIdLibro());
                 pstmt.setString(3, recomendacion.getTitulo());
                 pstmt.setString(4, recomendacion.getIdAutor());
@@ -394,10 +395,12 @@ public class UtilDB{
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
             Logger.getLogger(UtilDB.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NumberFormatException e) {
+            System.err.println("Error: El idUsuario no es un valor numérico válido");
+            // We can also log the error or throw a custom exception
         }
     }
 
-    
     public void registarLibroFavorito(Libro libro) throws ClassNotFoundException {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
@@ -639,9 +642,11 @@ public class UtilDB{
         Object encontrados = (Object) responseJSON.get("work_count");
         System.out.println("work_count " + encontrados.toString());
 
-        int Random = (int) (Math.random() * Integer.parseInt(encontrados.toString()));
 
         JSONArray busqueda = (JSONArray) responseJSON.get("works");
+        
+        int Random = (int) (Math.random() * busqueda.size());//Using busqueda.size() ensures that random index is always within array bounds.
+
         JSONObject libro = (JSONObject) busqueda.get(Random);
 
         Object key = (Object) libro.get("key");
