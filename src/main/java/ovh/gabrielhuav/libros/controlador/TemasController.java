@@ -4,11 +4,9 @@ import java.util.List;
 
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +19,6 @@ import paq.GustoTemas;
 import paq.UtilDB;
 import paq.RecomiendaTema;
 import paq.Temas;
-import paq.Usuario;
 
 @Controller
 @RequestMapping("/Temas")
@@ -71,6 +68,13 @@ public class TemasController {
         return ResponseEntity.ok("Recomendación realizada con éxito");
     }
     
+    
+    @GetMapping("/Recomendaciones/historial/{idUsuario}")
+    public ResponseEntity<List<RecomiendaTema>> getHistorialRecomendaciones(@PathVariable("idUsuario") int idUsuario) throws ClassNotFoundException {
+        List<RecomiendaTema> recomendaciones = utilDB.cargaListaRecomendacionTema(idUsuario);
+        return ResponseEntity.ok(recomendaciones);
+    }
+
     @GetMapping("/historial/{idUsuario}")
     public ResponseEntity<String> getHistorial(@PathVariable("idUsuario") String idUsuario) throws ClassNotFoundException {
         List<GustoTemas> historial = utilDB.cargaListaGustoTemas(idUsuario);

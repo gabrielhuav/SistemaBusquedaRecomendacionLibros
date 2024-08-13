@@ -95,6 +95,15 @@ ALTER TABLE recomendaciontema DROP CONSTRAINT recomendaciontema_ibfk_1;
 ALTER TABLE recomendaciontema CHANGE COLUMN idUsuario idUsuario VARCHAR(120) NOT NULL;
 ALTER TABLE recomendaciontema ADD CONSTRAINT recomendaciontema_ibfk_1 PRIMARY KEY (idUsuario);
 
+-- Si ya existe el usuario y perdio permisos
+-- Primero verificar que no existen usuarios cuyo nombre es admin
+-- Si existen, borrarlos
+DROP USER 'admin'@'localhost';
+FLUSH PRIVILEGES;
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
+FLUSH PRIVILEGES;
+
+
 INSERT INTO temas (clave, traduccion)
 VALUES
     ('architecture', 'Arquitectura'),

@@ -168,9 +168,48 @@ function redireccionarMenu() {
     window.location.href = "Menu.html";
 }
 
+function cargaHistorial() {
+  console.log(document.getElementById('historial-table-body')); // Verifica si el elemento existe
+  const historialTableBody = document.getElementById('historial-table-body');
+  const idUsuarioInput = document.getElementById('idUsuario');
+  const idUsuario = parseInt(idUsuarioInput.value, 10);
+  if (isNaN(idUsuario)) {
+    console.error('Invalid idUsuario value');
+    return;
+  }
+  fetch(`/Temas/Recomendaciones/historial/${idUsuario}`)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data); // inspect the data
+      if (!Array.isArray(data)) {
+        console.error('Invalid data format');
+        return;
+      }
+      historialTableBody.innerHTML = ''; // clear the table body
+      data.forEach(recomendacion => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><img src="https://covers.openlibrary.org/b/id/${recomendacion.imagen}-M.jpg" class="book-cover" /></td>
+          <td>${recomendacion.titulo}</td>
+          <td>${recomendacion.nombreAutor}</td>
+          <td>${recomendacion.idLibro}</td>
+          <td>${recomendacion.idAutor}</td>
+          <td>${recomendacion.tema}</td>
+          <td>${recomendacion.FechaRecomendacion}</td>
+        `;
+        historialTableBody.appendChild(row);
+      });
+    })
+    .catch(error => {
+      console.error('Error al cargar historial de recomendaciones:', error);
+      alert('Error al cargar historial de recomendaciones. Intente nuevamente más tarde.');
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     cargaTemas();
     cargaSelectGusto();
+    cargaHistorial();
 });
 
 window.onload = async function() {
@@ -199,5 +238,6 @@ window.onload = async function() {
     document.getElementById("temaR").innerHTML= e;
     recuperarImagen(c);
     cargaSelectGusto();
+    cargaHistorial();
     console.log("Ya cargo la página...");
 }

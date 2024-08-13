@@ -283,7 +283,7 @@ public class UtilDB{
                 System.out.println("UtilBD ====> Conectado a la base de datos de libros ");
                 Statement st = conn.createStatement();
 
-                String query = "SELECT * FROM recomendaciontema WHERE idUsuario = '" + idBuscar +"';";
+                String query = "SELECT * FROM recomendaciontema WHERE idUsuario = " + idBuscar + ";";
                 ResultSet rs = st.executeQuery(query);
                 while (rs.next()){
                     

@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ovh.gabrielhuav.libros.controlador;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import static java.lang.Math.log;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import paq.Libro;
 import paq.UtilDB;
 
-/**
- *
- * @author gabri
- */
 @Service
 public class LibroService {
     
